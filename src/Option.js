@@ -6,8 +6,15 @@
 'use strict';
 
 function Option(key, config) {
-    this.key = key;
+    this.name = key;
     this.config = config;
+
+    var alias = config.alias;
+
+    if(key.length === 1 && alias && alias.length > 1){
+        this.name = alias;
+        this.config.alias = key;
+    }
 }
 
 Option.prototype = {

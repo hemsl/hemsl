@@ -8,27 +8,27 @@ var colors = require('colors');
 var utils = require('./utils');
 
 var Command = require('./Command');
+var Option = require('./Option');
 
-function Args() {}
+function Args() {
+    this._options = {};
+    this._cmds = {};
+
+    this.option('version', {
+        default: true,
+        describe: '显示版本信息',
+        alias: 'v'
+    });
+
+    this.option('help', {
+        default: true,
+        describe: '显示帮助信息',
+        alias: 'h'
+    });
+}
+
 Args.prototype = {
     constructor: Args,
-    _options: {
-        'version': {
-            default: true,
-            describe: '显示版本信息',
-            alias: 'v'
-            // usage: 'hiproxy --version',
-            // arg: ''
-        },
-        'help': {
-            default: true,
-            describe: '显示帮助信息',
-            alias: 'h'
-            // usage: 'hiproxy [cmd] --help',
-            // arg: ''
-        }
-    },
-    _cmds : {},
     parse: function (_argv) {
         var args = Array.isArray(_argv) ? _argv : process.argv.slice(2);
         var curr, currValue, next, argName;
@@ -68,7 +68,7 @@ Args.prototype = {
 
         var currentOption, currentAlias;
         for (var option in this._options) {
-            currentOption = this._options[option];
+            currentOption = this._options[option].config;
             currentAlias = currentOption.alias;
 
             option = utils.toCamelCase(option);
@@ -86,16 +86,14 @@ Args.prototype = {
         var cmdName = result._[0];
 
         if (cmdName) {
-            if (this._cmds[cmdName]) {
+            if (this._cmds[cmdName]) {debugger
                 if (result.help) {
-                    // var usage = this._cmds[cmdName].usage || 'no help info found';
-                    // console.log('Usage: \n\n' + usage + '\n');
                     this.help(cmdName, this._cmds[cmdName]);
                 } else if (typeof this._cmds[cmdName].fn === 'function') {
                     this._cmds[cmdName].fn.apply(result, result._.slice(1))
                 }
             } else {
-                console.log('\n⚠️ 命令`' + cmdName + '`不存在\n');
+                console.log('\ncommand `' + cmdName + '` not exists\n');
             }
         } else {
             if (result.version) {
@@ -109,7 +107,8 @@ Args.prototype = {
     },
 
     option: function (key, opt) {
-        this._options[key] = opt || {};
+        var option = new Option(key, opt);
+        this._options[option.name] = option;
         return this;
     },
 
@@ -119,18 +118,13 @@ Args.prototype = {
 
         this._cmds[cmdName] = command;
 
-        return this;
+        return command;
     },
 
     help: function (cmdName, cmd) {
         var cmds = this._cmds;
         var options = this._options;
-        var usage = '  xxx'.bold.green + ' <command>'.blue + ' <option>\n'.blue;
-        // if(cmdName){
-        //     cmds = {};
-        //     cmds[cmdName] = this._cmds[cmdName];
-        //     usage = cmd.usage || 'no help info found';
-        // }
+        var usage = (this.binName || '').bold.green + ' <command>'.blue + ' <option>\n'.blue;
 
         if(cmdName){
             return this._helpCmd(cmdName);
@@ -140,51 +134,45 @@ Args.prototype = {
         console.log('  ' + usage);
         //commands
         var cmdLines = [];
+        var maxLength = 0;
         for(var cmd in cmds){
             var obj = this._cmds[cmd];
-            var desc = obj.describe;
+            var desc = obj.describe || '';
             var usage = obj.usage;
+            var cmdLen = cmd.length;
 
-            if(desc){
-                cmdLines.push('  ' + cmd.bold.green + '\t' + desc);
+            if(cmdLen > maxLength){
+                maxLength = cmdLen;
             }
 
-            // var cmdOptLines = opts.map(function(opt){
-            //     var conf = opt.config;
-            //     var describe = conf.describe;
-            //     var alias = conf.alias;
-            //     var optStr = (alias ? '-' + alias + ', ' : '') + '--' + opt;
-            //     var optStrLen = optStr.length;
-            //
-            //     if(optStrLen > maxLength){
-            //         maxLength = optStrLen;
-            //     }
-            //
-            //     return '      ' + optStr.bold.green + ' $$' + optStrLen + '$$ ' + describe;
-            // });
-
-            // console.log('Command:\n'.bold);
-            // console.log(cmdLines.join('\n'));
-
-            // console.log('\n');
-            // console.log('  Options:\n'.bold);
-            // console.log(cmdOptLines.join('\n').replace(/\$\$(\d+)\$\$/g, function(match, length){
-            //     return new Array(maxLength - length + 1).join(' ');
-            // }));
+            cmdLines.push('  ' + cmd.bold.green + ' $$' + cmdLen + '$$ ' + desc);
         }
 
         console.log('Commands:\n'.bold);
-        console.log(cmdLines.join('\n'));
+        console.log(cmdLines.join('\n').replace(/\$\$(\d+)\$\$/g, function(match, length){
+            return new Array(maxLength - length + 1).join(' ');
+        }));
+
+        console.log('\nOptions:\n'.bold);
+        console.log(this._getOptionString(this._options));
     },
 
     version: function (ver) {
         this._version = ver;
+        return this;
+    },
+
+    bin: function(binName){
+        this.binName = binName;
+        return this
     },
 
     _helpCmd: function(cmdName){
         var cmd = this._cmds[cmdName];
         var usage = cmd.usage || 'no help info found';
         var desc = cmd.describe;
+
+        debugger
 
         console.log('USAGE:\n'.bold);
         console.log('  ' + usage);
@@ -196,14 +184,18 @@ Args.prototype = {
         console.log();
         console.log('OPTIONS:\n'.bold);
 
+        console.log(this._getOptionString(cmd.options || {}));
+    },
 
-        var opts = cmd.options || [];
+    _getOptionString: function(option){
+        var opts = option;
         var maxLength = 0;
-        var cmdOptLines = opts.map(function(opt){
+        var cmdOptLines = Object.keys(opts).map(function(key){
+            var opt = opts[key];
             var conf = opt.config;
-            var describe = conf.describe;
+            var describe = conf.describe || '';
             var alias = conf.alias;
-            var optStr = (alias ? '-' + alias + ', ' : '') + '--' + opt;
+            var optStr = (alias ? '-' + alias + ', ' : '') + '--' + key;
             var optStrLen = optStr.length;
 
             if(optStrLen > maxLength){
@@ -213,149 +205,12 @@ Args.prototype = {
             return '  ' + optStr.bold.green + ' $$' + optStrLen + '$$ ' + describe;
         });
 
-        cmdOptLines.unshift('  --help'.bold.green + ' $$6$$ show help info');
+        // cmdOptLines.unshift('  -h,--help'.bold.green + ' $$6$$ show help info');
 
-        console.log(cmdOptLines.join('\n').replace(/\$\$(\d+)\$\$/g, function(match, length){
+        return cmdOptLines.join('\n').replace(/\$\$(\d+)\$\$/g, function(match, length){
             return new Array(maxLength - length + 1).join(' ');
-        }));
+        });
     }
 };
 
 module.exports = Args;
-
-// test
-
-var args = new module.exports();
-
-args.version('1.12.150-rc');
-
-// args
-//     .command('help', 'show help info', function () {
-//         console.log('======= help =======');
-//     }, 'xxx help')
-//     .command('version', 'show version info', function () {
-//         console.log('v1.1.2');
-//     }, 'xxx --version')
-//     .command('start', 'start hiproxy server', function () {
-//         console.log('start server:', this);
-//     }, 'xxx start --debug -D -p 8900')
-//     .command('init <name> <type>', 'init a new project', function (name) {
-//         console.log('init new project, name:', name);
-//     })
-//     .command('pack <env> [min]', 'init a new project', function (env, min) {
-//         console.log('pack project, env, min ==> ', env, min);
-//     });
-
-args.command('publish <ip> <dir>', {
-    describe: '同步代码到服务器',
-    usage: 'xxx sync 192.168.1.100 ./',
-    // group: '',
-    fn: function(ip, dir){
-        console.log('同步： ' + dir + ' ==> ' + ip);
-    },
-    options: {
-        'https': {
-            default: true,
-            describe: 'start https server',
-            alias: 's'
-        },
-        'P': {
-            default: '',
-            describe: 'output path',
-            alias: 'output-path',
-            usage: 'output-path <path>'
-        }
-    }
-});
-
-args.command('start <ip> <dir>', {
-    describe: '启动服务',
-    usage: 'xxx start -p 9090 --https',
-    // group: '',
-    fn: function(ip, dir){
-        console.log('start server:', this);
-    },
-    options: {
-        'https': {
-            default: true,
-            describe: 'start https server',
-            alias: 's'
-        },
-        'p': {
-            default: '',
-            describe: 'output path',
-            alias: 'port',
-            usage: ''
-        },
-        'hot-reload': {
-            alias: 'H',
-            describe: 'enable hot reload'
-        }
-    }
-});
-
-args.command('sync <ip> <dir>', {
-    describe: '同步代码到服务器',
-    usage: 'xxx sync 192.168.1.100 ./',
-    // group: '',
-    fn: function(ip, dir){
-        console.log('同步： ' + dir + ' ==> ' + ip);
-    },
-    options: {
-        'https': {
-            default: true,
-            describe: 'start https server',
-            alias: 's'
-        },
-        'P': {
-            default: '',
-            describe: 'output path',
-            alias: 'output-path',
-            usage: 'output-path <path>'
-        }
-    }
-});
-
-args
-    .option('https', {
-        default: true,
-        describe: 'start https server',
-        alias: 's'
-    })
-    .option('open', {
-        default: 'chrome',
-        describe: 'open browser',
-        alias: 'o',
-        usage: 'open [browser]'
-    })
-    .option('sub-domains', {
-        default: '',
-        describe: 'sub domains',
-        alias: 'd',
-        usage: 'sub-domains [domains...]'
-    })
-    .option('P', {
-        default: '',
-        describe: 'output path',
-        alias: 'output-path',
-        usage: 'output-path <path>'
-    });
-
-
-[
-    // 'init --help',
-    // 'init hello -xo --debug -OP',
-    // 'init hello react -xo --debug -OP',
-    // 'init -xo --debug -OP',
-    // 'pack --debug',
-    // 'pack dev --debug',
-    // 'pack dev true --debug',
-    // '--version',
-    'start --help',
-    '--help'
-].forEach(function(argStr){
-    // console.log('parse:: [[', argStr, ']]\n');
-    var res = args.parse(argStr.split(/\s+/));
-    // console.log(res);
-    console.log('\n\n');
-});
