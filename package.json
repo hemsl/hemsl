@@ -1,0 +1,30 @@
+{
+  "name": "node-argv-parser",
+  "version": "1.0.0",
+  "description": "Node.js command line argv parser",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zdying/node-argv-parser.git"
+  },
+  "keywords": [
+    "node",
+    "args",
+    "parser"
+  ],
+  "author": "zdying",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zdying/node-argv-parser/issues"
+  },
+  "homepage": "https://github.com/zdying/node-argv-parser#readme",
+  "dependencies": {
+    "colors": "^1.1.2"
+  }
+}
