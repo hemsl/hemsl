@@ -132,8 +132,6 @@ Args.prototype = {
         //     usage = cmd.usage || 'no help info found';
         // }
 
-        debugger
-
         if(cmdName){
             return this._helpCmd(cmdName);
         }
@@ -146,8 +144,6 @@ Args.prototype = {
             var obj = this._cmds[cmd];
             var desc = obj.describe;
             var usage = obj.usage;
-            var opts = obj.options || [];
-            var maxLength = 0;
 
             if(desc){
                 cmdLines.push('  ' + cmd.bold.green + '\t' + desc);
@@ -199,8 +195,29 @@ Args.prototype = {
 
         console.log();
         console.log('OPTIONS:\n'.bold);
-        console.log('  -h, --help\t' + 'show help info');
-        console.log();
+
+
+        var opts = cmd.options || [];
+        var maxLength = 0;
+        var cmdOptLines = opts.map(function(opt){
+            var conf = opt.config;
+            var describe = conf.describe;
+            var alias = conf.alias;
+            var optStr = (alias ? '-' + alias + ', ' : '') + '--' + opt;
+            var optStrLen = optStr.length;
+
+            if(optStrLen > maxLength){
+                maxLength = optStrLen;
+            }
+
+            return '  ' + optStr.bold.green + ' $$' + optStrLen + '$$ ' + describe;
+        });
+
+        cmdOptLines.unshift('  --help'.bold.green + ' $$6$$ show help info');
+
+        console.log(cmdOptLines.join('\n').replace(/\$\$(\d+)\$\$/g, function(match, length){
+            return new Array(maxLength - length + 1).join(' ');
+        }));
     }
 };
 
@@ -247,6 +264,32 @@ args.command('publish <ip> <dir>', {
             describe: 'output path',
             alias: 'output-path',
             usage: 'output-path <path>'
+        }
+    }
+});
+
+args.command('start <ip> <dir>', {
+    describe: '启动服务',
+    usage: 'xxx start -p 9090 --https',
+    // group: '',
+    fn: function(ip, dir){
+        console.log('start server:', this);
+    },
+    options: {
+        'https': {
+            default: true,
+            describe: 'start https server',
+            alias: 's'
+        },
+        'p': {
+            default: '',
+            describe: 'output path',
+            alias: 'port',
+            usage: ''
+        },
+        'hot-reload': {
+            alias: 'H',
+            describe: 'enable hot reload'
         }
     }
 });
