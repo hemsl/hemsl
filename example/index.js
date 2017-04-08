@@ -46,12 +46,20 @@ args.command('publish <ip> <dir>', {
     alias: 'p'
 })
 
-args.command('start <ip> <dir>', {
+args.command('start <port> [ip]', {
     describe: '启动本地测试服务',
-    usage: 'xxx start -p 9090 --https',
-    fn: function(ip, dir){
-        console.log('Server started at', ('http://' + ip).underline.magenta.bold);
-        console.log('Static files path', dir.underline.magenta.bold);
+    usage: 'example start <port> [ip] [options]',
+    fn: function(port, ip){
+        console.log('Server started at', ('http://' + ip + ':' + port).underline.magenta.bold);
+
+        // var http = require('http');
+
+        // var server = http.createServer(function(req, res){
+        //     console.log(req.method.bold.gray, req.url);
+        //     res.end(req.url);
+        // });
+
+        // server.listen(port, ip);
     },
     options: {
         'https': {
@@ -105,7 +113,7 @@ args
         describe: '显示详细的调试信息（全局配置）',
         alias: 'D'
     })
-    .option('grep', {
+    .option('grep <expression>', {
         default: true,
         describe: '日志内容过滤（全局配置）',
         alias: 'g'
@@ -120,15 +128,16 @@ args
     // 'pack --debug',
     // 'pack dev --debug',
     // 'pack dev true --debug',
+    '--grep something',
     '--version',
-    'start 0.0.0.0 ./publish/',
+    'start 8901 0.0.0.0 ./publish/',
     'publish -h',
     'start --help',
-    '--help'
+    '--help',
 ].forEach(function(argStr){
     console.log();
     console.log('$'.bold.bold.magenta, 'example', argStr, '\n');
     var res = args.parse(argStr.split(/\s+/));
-    // console.log(res);
+    console.log(res);
     console.log('\n');
 });

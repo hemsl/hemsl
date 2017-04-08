@@ -6,15 +6,27 @@
 'use strict';
 
 function Option(key, config) {
-    this.name = key;
-    this.config = config;
+    var keyTokens = key.split(/\s+/);
+    var optKey = keyTokens[0];
+    var params = keyTokens.slice(1);
+    var optAlias = config.alias;
+
+    if(params.length > 0){
+        config.params = params;
+    }
+
+    // this.name = key;
+    //this.config = config;
 
     var alias = config.alias;
 
-    if(key.length === 1 && alias && alias.length > 1){
-        this.name = alias;
-        this.config.alias = key;
+    if(optKey.length === 1 && alias && alias.length > 1){
+        optKey = alias;
+        config.alias = optKey;
     }
+
+    this.name = optKey;
+    this.config = config;
 }
 
 Option.prototype = {

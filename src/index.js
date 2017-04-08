@@ -35,6 +35,7 @@ Args.prototype = {
         var isFullArg, isShortArg;
         var result = {_: []};
 
+        //TODO 优化算法，支持option参数检测
         for (var i = 0, len = args.length; i < len; i++) {
             curr = args[i];
             next = args[i + 1];
@@ -130,8 +131,8 @@ Args.prototype = {
             return this._helpCmd(cmdName);
         }
 
-        console.log('Usage:\n'.bold);
-        console.log('  ' + usage);
+        console.log('  Usage:\n'.bold);
+        console.log('    ' + usage);
         //commands
         var cmdLines = [];
         var maxLength = 0;
@@ -145,15 +146,15 @@ Args.prototype = {
                 maxLength = cmdLen;
             }
 
-            cmdLines.push('  ' + cmd.bold.green + ' $$' + cmdLen + '$$ ' + desc);
+            cmdLines.push('    ' + cmd.bold.green + ' $$' + cmdLen + '$$ ' + desc);
         }
 
-        console.log('Commands:\n'.bold);
+        console.log('  Commands:\n'.bold);
         console.log(cmdLines.join('\n').replace(/\$\$(\d+)\$\$/g, function(match, length){
             return new Array(maxLength - length + 1).join(' ');
         }));
 
-        console.log('\nOptions:\n'.bold);
+        console.log('\n  Options:\n'.bold);
         console.log(this._getOptionString(this._options));
     },
 
@@ -174,15 +175,15 @@ Args.prototype = {
 
         debugger
 
-        console.log('USAGE:\n'.bold);
-        console.log('  ' + usage);
+        console.log('  USAGE:\n'.bold);
+        console.log('    ' + usage);
 
         console.log();
-        console.log('DESCRIBE:\n'.bold);
-        console.log('  ' + desc);
+        console.log('  DESCRIBE:\n'.bold);
+        console.log('    ' + desc);
 
         console.log();
-        console.log('OPTIONS:\n'.bold);
+        console.log('  OPTIONS:\n'.bold);
 
         console.log(this._getOptionString(cmd.options || {}));
     },
@@ -202,7 +203,7 @@ Args.prototype = {
                 maxLength = optStrLen;
             }
 
-            return '  ' + optStr.bold.green + ' $$' + optStrLen + '$$ ' + describe;
+            return '    ' + optStr.bold.green + ' $$' + optStrLen + '$$ ' + describe;
         });
 
         // cmdOptLines.unshift('  -h,--help'.bold.green + ' $$6$$ show help info');
