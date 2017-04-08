@@ -28,14 +28,29 @@ describe('helpers/args.js (Args Parse):\n', function (){
 
     args.bin('example-test').version('10.100.1000');
 
-    args.command('start', {
+    args
+    .command('start', {
         fn: function(){
             startRes = 'ok';
             startContext = this;
             startArguments = arguments;
         },
         describe: 'start server',
-        usage: 'example start -p 9900 --https'
+        usage: 'example start -p 9900 --https',
+        options: {
+            'port': {
+                alias: 'p',
+                describe: 'server port'
+            },
+            'https': {
+                alias: 's',
+                describe: 'enable https'
+            }
+        }
+    })
+    .option('hot-load', {
+        alias: 'H',
+        describe: 'enable hot reload'
     });
 
     args
@@ -43,7 +58,7 @@ describe('helpers/args.js (Args Parse):\n', function (){
         alias: 'o',
         describe: 'option name: one/o'
     })
-    .option('port', {
+    .option('port <port>', {
         alias: 'p',
         describe: 'option name: port/p'
     })
@@ -210,5 +225,42 @@ describe('helpers/args.js (Args Parse):\n', function (){
 
             assert.ok(name === 'zdying' && age === '23');
         });
+
+        it('should parse command option right: ', function(){
+            var execed = false;
+            args
+                .command('start-server', {
+                    fn: function(){
+                        execed = true;
+                    },
+                    describe: 'start server',
+                    usage: 'example start-server -p 9900 --https',
+                    options: {
+                        'port': {
+                            alias: 'p',
+                            describe: 'server port'
+                        },
+                        'https': {
+                            alias: 's',
+                            describe: 'enable https'
+                        }
+                    }
+                })
+                .option('hot-load', {
+                    alias: 'H',
+                    describe: 'enable hot reload'
+                });
+
+            var ress = args.parse('start-server --help'.split(' '));
+
+            // console.log('====>', ress);
+            var reslog = hook.captured();
+            assert.ok(
+                reslog.indexOf('example start-server -p 9900 --https') !== -1 && 
+                reslog.indexOf('--hot-load') !== -1 &&
+                reslog.indexOf('-H') !== -1 &&
+                reslog.indexOf('-p, --port') !== -1
+            )
+        })
     });
 });

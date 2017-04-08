@@ -21,8 +21,8 @@ function Option(key, config) {
     var alias = config.alias;
 
     if(optKey.length === 1 && alias && alias.length > 1){
+        config.alias = optKey;        
         optKey = alias;
-        config.alias = optKey;
     }
 
     this.name = optKey;
