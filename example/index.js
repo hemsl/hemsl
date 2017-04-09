@@ -113,6 +113,11 @@ args
         describe: '显示详细的调试信息（全局配置）',
         alias: 'D'
     })
+    .option('log-time', {
+        default: true,
+        describe: '显示详日志打印时间（全局配置）',
+        alias: 'T'
+    })
     .option('grep <expression>', {
         default: true,
         describe: '日志内容过滤（全局配置）',
@@ -128,7 +133,7 @@ args
     // 'pack --debug',
     // 'pack dev --debug',
     // 'pack dev true --debug',
-    '--grep something',
+    '--grep something --log-time',
     '--version',
     'start 8901 0.0.0.0 ./publish/',
     'publish -h',

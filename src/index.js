@@ -16,6 +16,7 @@ var Option = require('./Option');
 function Args() {
     this._options = {};
     this._cmds = {};
+    this._aliasCache = {};
 
     this.option('version', {
         default: true,
@@ -34,7 +35,7 @@ Args.prototype = {
     constructor: Args,
     parse: function (_argv) {
         var args = Array.isArray(_argv) ? _argv : process.argv.slice(2);
-        var curr, currValue, next, argName;
+        var curr, currInfo, currValue, next, nextInfo, optName;
         var isFullArg, isShortArg;
         var result = {_: []};
 
@@ -42,48 +43,39 @@ Args.prototype = {
         for (var i = 0, len = args.length; i < len; i++) {
             curr = args[i];
             next = args[i + 1];
+            currInfo = utils.getOptionInfo(curr);
+            nextInfo = utils.getOptionInfo(next);
 
-            argName = curr.replace(/^\-{1,2}/, '')
+            optName = currInfo.option;
 
-            isFullArg = utils.isFullArgName(curr);
-            isShortArg = utils.isShortArgName(curr);
-
-            if (isFullArg || isShortArg) {
-                // 如果当前argv是参数
-                if (!next || next.indexOf('-') === 0) {
-                    // 如果下一个不是当前参数的值
-                    currValue = true;
-                } else {
-                    currValue = next;
-                    i++;
+            if(currInfo.isOption){
+                if(currInfo.arguments){
+                    currValue = currInfo.arguments;
+                }else{
+                    // 如果当前argv是option
+                    if (!next || nextInfo.isOption){
+                        // 如果下一个argv是option(不是当前option的argument)
+                        currValue = true;
+                    }else{
+                        // 下一个argv是当前option的argument
+                        currValue = next;
+                        i++;
+                    }
                 }
-            }
 
-            if (isFullArg) {
-                result[utils.toCamelCase(argName)] = currValue;
-            } else if (isShortArg) {
-                argName.split('').forEach(function (_argName, index) {
-                    result[_argName] = index === argName.length - 1 ? currValue : true;
-                });
-            } else {
+                if(currInfo.isLongOption){
+                    // eg: --sub-domains domain.com ==> {subDomans: 'domain.com'}
+                    // result[utils.toCamelCase(optName)] = currValue;
+                    this._setValue(result, optName, currValue);
+                }else if(currInfo.isShortOption){
+                    // eg: -Dxo chrome ==> {D: true, x: true, o: 'chrome'}
+                    optName.split('').forEach(function (_optName, index) {
+                        // result[_optName] = index === optName.length - 1 ? currValue : true;
+                        this._setValue(result, _optName, index === optName.length - 1 ? currValue : true);
+                    }.bind(this));
+                }
+            }else{
                 result._.push(curr);
-            }
-        }
-
-        var currentOption, currentAlias;
-        for (var option in this._options) {
-            currentOption = this._options[option].config;
-            currentAlias = currentOption.alias;
-
-            option = utils.toCamelCase(option);
-            currentAlias = utils.toCamelCase(currentAlias);
-
-            if (currentAlias) {
-                if (option in result) {
-                    result[currentAlias] = result[option];
-                } else if (currentAlias in result) {
-                    result[option] = result[currentAlias];
-                }
             }
         }
 
@@ -109,10 +101,28 @@ Args.prototype = {
 
         return result
     },
+                                                                                                                                                                                                                                                                                                                                                              
+    _setValue: function(result, option, value){debugger
+        result[utils.toCamelCase(option)] = value;
+
+        var alias = this._aliasCache[option];
+        if(alias){
+            result[utils.toCamelCase(alias)] = value;
+        }
+    },
 
     option: function (key, opt) {
         var option = new Option(key, opt);
-        this._options[option.name] = option;
+        var alias = option.config.alias;
+        var name = option.name;
+        
+        this._options[name] = option;
+
+        if(alias){
+            this._aliasCache[name] = alias;
+            this._aliasCache[alias] = name;
+        }
+
         return this;
     },
 

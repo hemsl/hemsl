@@ -6,6 +6,8 @@
 'use strict';
 
 function Option(key, config) {
+    config = config || {};
+    
     var keyTokens = key.split(/\s+/);
     var optKey = keyTokens[0];
     var params = keyTokens.slice(1);

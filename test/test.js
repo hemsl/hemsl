@@ -72,6 +72,12 @@ describe('helpers/args.js (Args Parse):\n', function (){
     })
     .option('P', {
         alias: 'output-path'
+    })
+    .option('file', {
+        alias: 'F'
+    })
+    .option('path', {
+        alias: 'H'
     });
 
     var argv = 
@@ -86,11 +92,15 @@ describe('helpers/args.js (Args Parse):\n', function (){
         + '-P /file/path/xxx '
         + 'subcmd1 '
         + '-def '
-        + '-ot two_val';
+        + '-ot two_val '
+        + '--file=detail.json '
+        + '-H=./result/ '
+        + '--log-time';
 
     var _args = args.parse(argv.split(' '));
 
-    console.log(_args);
+    console.log('input: \n', argv);
+    console.log('output: \n', _args);
 
     describe('#parse()', function (){
         describe('正确解析 long option:', function (){
@@ -147,6 +157,18 @@ describe('helpers/args.js (Args Parse):\n', function (){
                 assert.ok(_args.outputPath === _args.P && _args.P === '/file/path/xxx')
             });
         });
+
+        describe('正确处理--option=argument: ', function(){
+            it('-F, --file ==> --file=detail.json  ==> {file: "detail.json", F: "detail.json"}', function(){
+                assert.equal(_args.F, _args.file);
+                assert.equal(_args.file, 'detail.json');
+            });
+
+            it('-H, --path ==> -H=./result/  ==> {path: "./result/", H: "./result/"}', function(){
+                assert.equal(_args.path, _args.H);
+                assert.equal(_args.path, './result/');
+            });
+        })
     });
  
     describe('#exec callback', function (){

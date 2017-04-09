@@ -80,8 +80,8 @@ $ example --help
 
 ## TODO
 
-- [ ] 支持`--option=argument`格式
-- [ ] 支持`-fFILE`(等价于`-f FILE`)格式
+- [ ] Command对应Option处理（可能和全局的冲突／alias）
+- [-] 支持`--option=argument`格式
 - [ ] 支持`--`和`-`后的内容不再解析
 - [ ] 支持Argument校验
 - [ ] 编写文档
