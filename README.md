@@ -20,60 +20,70 @@ Static files path ./publish/
 
 $ example publish -h 
 
-USAGE:
+  USAGE:
 
-  xxx sync 192.168.1.100 ./
+    xxx sync 192.168.1.100 ./
 
-DESCRIBE:
+  DESCRIBE:
 
-  发布模块到npm/github/yarn
+    发布模块到npm/github/yarn
 
-OPTIONS:
+  OPTIONS:
 
-  -h, --help      show help info
-  -t, --tag       Publish branch tag
-  -u, --user      Your user name (nodejs.org)
-  -P, --private   Publish for private use
-  -p, --platform  The target platform to publish
+    -h, --help      show help info
+    -t, --tag       Publish branch tag
+    -u, --user      Your user name (nodejs.org)
+    -P, --private   Publish for private use
+    -p, --platform  The target platform to publish
 
 
 
 $ example start --help 
 
-USAGE:
+  USAGE:
 
-  xxx start -p 9090 --https
+    xxx start -p 9090 --https
 
-DESCRIBE:
+  DESCRIBE:
 
-  启动本地测试服务
+    启动本地测试服务
 
-OPTIONS:
+  OPTIONS:
 
-  -h, --help        show help info
-  -H, --hot-reload  enable hot reload
-  -s, --https       start https server
-  -p, --port        output path
+    -h, --help        show help info
+    -H, --hot-reload  enable hot reload
+    -s, --https       start https server
+    -p, --port        output path
 
 
 
 $ example --help 
 
-Usage:
+  Usage:
 
-  example <command> <option>
+    example <command> <option>
 
-Commands:
+  Commands:
 
-  publish  发布模块到npm/github/yarn
-  start    启动本地测试服务
-  sync     同步代码到服务器
+    publish  发布模块到npm/github/yarn
+    start    启动本地测试服务
+    sync     同步代码到服务器
 
-Options:
+  Options:
 
-  -v, --version  显示版本信息
-  -h, --help     显示帮助信息
-  -d, --debug    显示调试信息（全局配置）
-  -D, --detail   显示详细的调试信息（全局配置）
-  -g, --grep     日志内容过滤（全局配置）
+    -v, --version  显示版本信息
+    -h, --help     显示帮助信息
+    -d, --debug    显示调试信息（全局配置）
+    -D, --detail   显示详细的调试信息（全局配置）
+    -g, --grep     日志内容过滤（全局配置）
 ```
+
+## TODO
+
+- [ ] 支持`--option=argument`格式
+- [ ] 支持`-fFILE`(等价于`-f FILE`)格式
+- [ ] 支持`--`和`-`后的内容不再解析
+- [ ] 支持Argument校验
+
+- [ ] 编写文档
+- [ ] 完善测试

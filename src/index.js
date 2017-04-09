@@ -10,6 +10,9 @@ var utils = require('./utils');
 var Command = require('./Command');
 var Option = require('./Option');
 
+// http://stackoverflow.com/questions/9725675/is-there-a-standard-format-for-command-line-shell-help-text
+// http://docopt.org/
+
 function Args() {
     this._options = {};
     this._cmds = {};
