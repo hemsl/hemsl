@@ -82,7 +82,7 @@ Args.prototype = {
         var cmdName = result._[0];
 
         if (cmdName) {
-            if (this._cmds[cmdName]) {debugger
+            if (this._cmds[cmdName]) {
                 if (result.help) {
                     this.help(cmdName, this._cmds[cmdName]);
                 } else if (typeof this._cmds[cmdName].fn === 'function') {
@@ -102,7 +102,7 @@ Args.prototype = {
         return result
     },
                                                                                                                                                                                                                                                                                                                                                               
-    _setValue: function(result, option, value){debugger
+    _setValue: function(result, option, value){
         result[utils.toCamelCase(option)] = value;
 
         var alias = this._aliasCache[option];
@@ -138,13 +138,13 @@ Args.prototype = {
     help: function (cmdName, cmd) {
         var cmds = this._cmds;
         var options = this._options;
-        var usage = (this.binName || '').bold.green + ' <command>'.blue + ' <option>\n'.blue;
+        var usage = (this.binName || '').bold.green + ' [command]'.blue + ' [option]\n'.blue;
 
         if(cmdName){
             return this._helpCmd(cmdName);
         }
 
-        console.log('  Usage:\n'.bold);
+        console.log('  ' + 'Usage:\n'.bold.underline);
         console.log('    ' + usage);
         //commands
         var cmdLines = [];
@@ -159,15 +159,15 @@ Args.prototype = {
                 maxLength = cmdLen;
             }
 
-            cmdLines.push('    ' + cmd.bold.green + ' $$' + cmdLen + '$$ ' + desc);
+            cmdLines.push('    ' + cmd.bold + ' $$' + cmdLen + '$$ ' + desc.gray);
         }
 
-        console.log('  Commands:\n'.bold);
+        console.log('  ' + 'Commands:\n'.bold.underline);
         console.log(cmdLines.join('\n').replace(/\$\$(\d+)\$\$/g, function(match, length){
             return new Array(maxLength - length + 1).join(' ');
         }));
 
-        console.log('\n  Options:\n'.bold);
+        console.log('\n  ' + 'Options:\n'.bold.underline);
         console.log(this._getOptionString(this._options));
     },
 
@@ -186,17 +186,15 @@ Args.prototype = {
         var usage = cmd.usage || 'no help info found';
         var desc = cmd.describe;
 
-        debugger
-
-        console.log('  USAGE:\n'.bold);
-        console.log('    ' + usage);
+        console.log('  ' + 'USAGE:\n'.bold.underline);
+        console.log('    ' + usage.gray);
 
         console.log();
-        console.log('  DESCRIBE:\n'.bold);
-        console.log('    ' + desc);
+        console.log('  ' + 'DESCRIBE:\n'.bold.underline);
+        console.log('    ' + desc.gray);
 
         console.log();
-        console.log('  OPTIONS:\n'.bold);
+        console.log('  ' + 'OPTIONS:\n'.bold.underline);
 
         console.log(this._getOptionString(cmd.options || {}));
     },
@@ -209,14 +207,15 @@ Args.prototype = {
             var conf = opt.config;
             var describe = conf.describe || '';
             var alias = conf.alias;
+            var params = conf.params || [];
             var optStr = (alias ? '-' + alias + ', ' : '') + '--' + key;
-            var optStrLen = optStr.length;
+            var optStrLen = optStr.length + (params.length ? params.join(' ').length : 0);
 
             if(optStrLen > maxLength){
                 maxLength = optStrLen;
             }
 
-            return '    ' + optStr.bold.green + ' $$' + optStrLen + '$$ ' + describe;
+            return '    ' + optStr.bold + ' ' + params.join(' ').gray + ' $$' + optStrLen + '$$ ' + describe.gray;
         });
 
         // cmdOptLines.unshift('  -h,--help'.bold.green + ' $$6$$ show help info');

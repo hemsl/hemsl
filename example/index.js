@@ -143,6 +143,6 @@ args
     console.log();
     console.log('$'.bold.bold.magenta, 'example', argStr, '\n');
     var res = args.parse(argStr.split(/\s+/));
-    console.log(res);
+    // console.log(res);
     console.log('\n');
 });
