@@ -5,6 +5,9 @@
 
 'use strict';
 
+console.log(require('minimist')('one two three -- four five --six'.split(' '), { '--': true }))
+console.log(require('minimist')('one two three -- four five --six --seven=7'.split(' ')));
+
 // test
 
 var Args = require('../src');
@@ -143,6 +146,6 @@ args
     console.log();
     console.log('$'.bold.bold.magenta, 'example', argStr, '\n');
     var res = args.parse(argStr.split(/\s+/));
-    // console.log(res);
+    console.log(res);
     console.log('\n');
 });

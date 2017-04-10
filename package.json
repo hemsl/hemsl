@@ -1,5 +1,5 @@
 {
-  "name": "node-argv-parser",
+  "name": "hemsl",
   "version": "1.0.0",
   "description": "Node.js command line argv parser",
   "main": "index.js",

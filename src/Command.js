@@ -31,6 +31,7 @@ function Command(cmd, config) {
                 break;
             }
         }
+        
         func = function () {
             if (arguments.length < paramsLen) {
                 console.log("参数个数不对, 期待`" + paramsLen + "`个，实际接收到`" + arguments.length + "`个")

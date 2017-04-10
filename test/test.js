@@ -201,7 +201,7 @@ describe('helpers/args.js (Args Parse):\n', function (){
         it('print full help info', function(){
             args.parse('--help'.split(' '));
 
-            assert.ok(hook.captured().indexOf('<command>') !== -1)
+            assert.ok(hook.captured().indexOf('example-test') !== -1)
         });
 
         it('print help info for cmd', function(){

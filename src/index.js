@@ -13,10 +13,11 @@ var Option = require('./Option');
 // http://stackoverflow.com/questions/9725675/is-there-a-standard-format-for-command-line-shell-help-text
 // http://docopt.org/
 
-function Args() {
+function Args(config) {
     this._options = {};
     this._cmds = {};
     this._aliasCache = {};
+    this.config = config || {};
 
     this.option('version', {
         default: true,
@@ -48,9 +49,19 @@ Args.prototype = {
 
             optName = currInfo.option;
 
+            if(currInfo.dashCount === curr.length){
+                // `--`或者`-`
+                if(currInfo.dashCount === 1){
+                    result._ = result._.concat(args.slice(index + 1));
+                }else{
+                    result.__ = args.slice(index + 1);
+                }
+                break;
+            }
+
             if(currInfo.isOption){
-                if(currInfo.arguments){
-                    currValue = currInfo.arguments;
+                if(currInfo.argument){
+                    currValue = currInfo.argument;
                 }else{
                     // 如果当前argv是option
                     if (!next || nextInfo.isOption){

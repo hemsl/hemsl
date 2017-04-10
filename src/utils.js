@@ -29,7 +29,7 @@ module.exports = {
             return {
                 dashCount: dashCount,
                 option: name,
-                arguments: value,
+                argument: value,
                 isShortOption: isShortOption,
                 isLongOption: isLongOption,
                 isOption: isOption
