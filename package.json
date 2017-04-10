@@ -7,10 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "mocha": "mocha test/*.js",
-    "cover": "istanbul cover _mocha test/*.js",
-    "test": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
-    "test1": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info"    
+    "mocha": "mocha test/**/*.test.js --no-color",
+    "cover": "istanbul cover _mocha test/**/*.test.js --no-color",
+    "test": "npm run cover -- --report lcovonly --no-color && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
