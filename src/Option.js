@@ -5,6 +5,8 @@
 
 'use strict';
 
+var utils = require('./utils');
+
 function Option(key, config) {
     config = config || {};
     
@@ -27,7 +29,8 @@ function Option(key, config) {
         optKey = alias;
     }
 
-    this.name = optKey;
+    this.name = utils.toCamelCase(optKey);
+    this.originName = optKey;
     this.config = config;
 }
 

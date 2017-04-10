@@ -42,23 +42,16 @@ function Command(cmd, config) {
         }
     }
 
-    var confOpt = config.options || {};
-
-    options.help = new Option('help', {
-        alias: 'h',
-        describe: 'show help info'
-    });
     
-    Object.keys(confOpt).sort().forEach(function(opt){
-         var option = new Option(opt, config.options[opt]);
-         options[option.name] = option;
-    });
 
     this.name = cmdName;
     this.describe = config.describe || '';
     this.usage = config.usage || '';
     this.fn = func;
-    this.options = options;
+    this.options = {};
+    this._aliasCache = {};
+
+    this._initOptions(config);
 
     return this;
 }
@@ -68,7 +61,16 @@ Command.prototype = {
 
     option: function(key, opt){
         var option = new Option(key, opt);
-        this.options[option.name] = option;
+
+        var name = option.name;
+        var alias = option.config.alias;
+
+        this.options[name] = option;
+
+        if(alias){
+            this._aliasCache[alias] = name;
+            this._aliasCache[name] = alias;                
+        }
         return this;
     },
 
@@ -78,6 +80,30 @@ Command.prototype = {
 
     execute: function(){
 
+    },
+
+    _initOptions: function(config){
+        var confOpt = config.options || {};
+        var _aliasCache = this._aliasCache;
+        var options = this.options;
+
+        options.help = new Option('help', {
+            alias: 'h',
+            describe: 'show help info'
+        });
+        
+        Object.keys(confOpt).sort().forEach(function(opt){
+            var option = new Option(opt, config.options[opt]);
+            var name = option.name;
+            var alias = option.config.alias;
+
+            options[name] = option;
+
+            if(alias){
+                _aliasCache[alias] = name;
+                _aliasCache[name] = alias;                
+            }
+        });
     }
 };
 

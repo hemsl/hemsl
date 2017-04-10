@@ -15,36 +15,36 @@ args
 .bin('example')
 .version('1.12.150-rc');
 
-args.command('publish <ip> <dir>', {
-    describe: '发布模块到npm/github/yarn',
-    usage: 'xxx sync 192.168.1.100 ./',
-    // group: '',
-    fn: function(ip, dir){
-        console.log('同步： ' + dir + ' ==> ' + ip);
-    },
-    options: {
-        'user': {
-            default: '',
-            describe: 'Your user name (nodejs.org)',
-            alias: 'u'
-        },
-        'tag': {
-            default: '',
-            describe: 'Publish branch tag',
-            alias: 't'
-        }
-    }
-})
-.option('private', {
-    default: '',
-    describe: 'Publish for private use',
-    alias: 'P'
-})
-.option('platform', {
-    default: 'all',
-    describe: 'The target platform to publish',
-    alias: 'p'
-})
+// args.command('publish <ip> <dir>', {
+//     describe: '发布模块到npm/github/yarn',
+//     usage: 'xxx sync 192.168.1.100 ./',
+//     // group: '',
+//     fn: function(ip, dir){
+//         console.log('同步： ' + dir + ' ==> ' + ip);
+//     },
+//     options: {
+//         'user': {
+//             default: '',
+//             describe: 'Your user name (nodejs.org)',
+//             alias: 'u'
+//         },
+//         'tag': {
+//             default: '',
+//             describe: 'Publish branch tag',
+//             alias: 't'
+//         }
+//     }
+// })
+// .option('private', {
+//     default: '',
+//     describe: 'Publish for private use',
+//     alias: 'P'
+// })
+// .option('platform', {
+//     default: 'all',
+//     describe: 'The target platform to publish',
+//     alias: 'p'
+// });
 
 args.command('start <port> [ip]', {
     describe: '启动本地测试服务',
@@ -78,6 +78,16 @@ args.command('start <port> [ip]', {
             describe: 'enable hot reload'
         }
     }
+})
+.option('date-format', {
+    default: 'yyyy-MM-dd',
+    alias: 'R',
+    describe: 'date format string'
+})
+.option('time-format', {
+    alias: 'm',
+    default: 'HH:mm:ss',
+    describe: 'time format string'
 });
 
 args.command('sync <ip> <dir>', {
@@ -139,11 +149,12 @@ args
     'start 8901 0.0.0.0 ./publish/',
     'publish -h',
     'start --help',
+    '-m h:m:s --hot-reload --port 9999 start 9999 127.0.0.1 --grep info --log-time --time-format h:m:s --date-format',
     '--help',
 ].forEach(function(argStr){
     console.log();
     console.log('$'.bold.bold.magenta, 'example', argStr, '\n');
     var res = args.parse(argStr.split(/\s+/));
-    console.log(res);
+    // console.log(res);
     console.log('\n');
 });

@@ -43,14 +43,22 @@ describe('helpers/args.js (Args Parse):\n', function (){
                 describe: 'server port'
             },
             'https': {
-                alias: 's',
+                alias: 'S',
                 describe: 'enable https'
             }
         }
     })
     .option('hot-load', {
-        alias: 'H',
+        alias: 'r',
         describe: 'enable hot reload'
+    })
+    .option('date-format', {
+        default: 'yyyy-MM-dd',
+        describe: 'date format string'
+    })
+    .option('time-format', {
+        default: 'HH:mm:ss',
+        describe: 'time format string'
     });
 
     args
@@ -95,7 +103,9 @@ describe('helpers/args.js (Args Parse):\n', function (){
         + '-ot two_val '
         + '--file=detail.json '
         + '-H=./result/ '
-        + '--log-time';
+        + '--log-time '
+        + '--time-format '
+        + '--date-format yy-m-d ';
 
     var _args = args.parse(argv.split(' '));
 
@@ -167,6 +177,20 @@ describe('helpers/args.js (Args Parse):\n', function (){
             it('-H, --path ==> -H=./result/  ==> {path: "./result/", H: "./result/"}', function(){
                 assert.equal(_args.path, _args.H);
                 assert.equal(_args.path, './result/');
+            });
+        });
+
+        describe('正确处理默认值: ', function(){
+            it('"log-time" : {} ==> --log-time ==> {logTime: true}', function(){
+                assert.equal(_args.logTime, true);
+            });
+
+            it('"time-format" : {default: "HH:mm:ss"} ==> --time-format ==> {logTime: "HH:mm:ss"}', function(){
+                assert.equal(_args.timeFormat, 'HH:mm:ss');
+            });
+
+            it('"date-format" : {default: "yyyy-MM-dd"} ==> --date-format yy-m-d ==> {logTime: "yy-m-d"}', function(){
+                assert.equal(_args.dateFormat, 'yy-m-d');
             });
         })
     });
@@ -277,12 +301,11 @@ describe('helpers/args.js (Args Parse):\n', function (){
 
             // console.log('====>', ress);
             var reslog = hook.captured();
-            assert.ok(
-                reslog.indexOf('example start-server -p 9900 --https') !== -1 && 
-                reslog.indexOf('--hot-load') !== -1 &&
-                reslog.indexOf('-H') !== -1 &&
-                reslog.indexOf('-p, --port') !== -1
-            )
+            
+            assert.notEqual(reslog.indexOf('example start-server -p 9900 --https'), -1)
+            assert.notEqual(reslog.indexOf('--hot-load'), -1)
+            assert.notEqual(reslog.indexOf('-H'), -1)
+            assert.notEqual(reslog.indexOf('-p, --port'), -1)
         })
     });
 });

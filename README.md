@@ -8,7 +8,7 @@ Node.js command line argv parser
 
 # Example
 
-```
+```javascript
 var Args = require('hemsl');
 var args = new Args();
 

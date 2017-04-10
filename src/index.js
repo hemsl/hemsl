@@ -45,7 +45,6 @@ Args.prototype = {
             this._execute(result);
         }else{
             console.log(error);
-            // return {};
         }
 
         return result;
@@ -53,10 +52,8 @@ Args.prototype = {
 
     _parse: function(args){
         var curr, currInfo, currValue, next, nextInfo, optName;
-        var isFullArg, isShortArg;
         var result = {_: []};
 
-        //TODO 优化算法，支持option参数检测
         for (var i = 0, len = args.length; i < len; i++) {
             curr = args[i];
             next = args[i + 1];
@@ -91,14 +88,12 @@ Args.prototype = {
                 }
 
                 if(currInfo.isLongOption){
-                    // eg: --sub-domains domain.com ==> {subDomans: 'domain.com'}
-                    // result[utils.toCamelCase(optName)] = currValue;
-                    this._setValue(result, optName, currValue);
+                    // eg: --sub-domains domain.com ==> {'sub-domans': 'domain.com'}
+                    result[utils.toCamelCase(optName)] = currValue;
                 }else if(currInfo.isShortOption){
                     // eg: -Dxo chrome ==> {D: true, x: true, o: 'chrome'}
                     optName.split('').forEach(function (_optName, index) {
-                        // result[_optName] = index === optName.length - 1 ? currValue : true;
-                        this._setValue(result, _optName, index === optName.length - 1 ? currValue : true);
+                        result[_optName] = index === optName.length - 1 ? currValue : true;
                     }.bind(this));
                 }
             }else{
@@ -109,39 +104,63 @@ Args.prototype = {
         return result;
     },
 
-    _getOption: function(result){
+    _getOption: function(result, optName){
+        var cmdName = result._[0];
+        var cmd = this._cmds[cmdName] || {};
+        var cmdOptions = cmd.options || {};
+        var globalOptions = this._options;
+        var cmdAliasCache = (cmd._aliasCache || {})[optName];
+        var globalAliasCache = this._aliasCache[optName];
+        var optDefine = cmdOptions[cmdAliasCache] || cmdOptions[optName];
+        var globalDefine = globalOptions[globalAliasCache] || globalOptions[optName];
 
+        return optDefine || globalDefine;
+    },
+
+    _getAlias: function(cmdName, optName){
+        var cmdAlias = '';
+        if(cmdName && cmdName in this._cmds){
+            cmdAlias = this._cmds[cmdName]._aliasCache[optName];
+        }
+        return cmdAlias || this._aliasCache[optName];
     },
 
     /**
      * 校验option参数
      */
     _checkOption: function(result){
-        var cmdName = result._[0];
-        var cmd = this._cmds[cmdName] || {};
-        var cmdOptions = cmd.options || {};
-        var globalOptions = this._options;
         var error = '';
 
         for(var optName in result){
-            if(!/^\_{1,2}$/.test(optName)){debugger
+            if(!/^\_{1,2}$/.test(optName)){
                 var optValue = result[optName];
-                var optDefine = cmdOptions[optName] || globalOptions[optName];
+                var optDefine = this._getOption(result, optName);
                 var params = optDefine && optDefine.config.params;
+                var alias = this._getAlias(result._[0], optName);
 
+                // 校验参数是否正确
                 if(Array.isArray(params) && params.length > 0 && optValue === DEFAULT_VALUE){
                     error = ['Error: 选项', optName, params.join(' '), '的值不正确'].join(' ');
                     // break;
                 }
                 
+                // 设置默认值
                 if(optValue === DEFAULT_VALUE){
-                    result[optName] = true;
+                    result[optName] = (optDefine && ('default' in optDefine.config)) ? optDefine.config.default : true;
+                }
+
+                // 处理alias
+                if(alias){
+                    result[utils.toCamelCase(alias)] = result[optName];
                 }
             }
         }
         return error;
     },
 
+    /**
+     * 执行命令
+     */
     _execute: function(result){
         var cmdName = result._[0];
 
@@ -164,15 +183,6 @@ Args.prototype = {
         }
 
         return this;
-    },
-                                                                                                                                                                                                                                                                                                                                                              
-    _setValue: function(result, option, value){
-        result[utils.toCamelCase(option)] = value;
-
-        var alias = this._aliasCache[option];
-        if(alias){
-            result[utils.toCamelCase(alias)] = value;
-        }
     },
 
     option: function (key, opt) {
@@ -201,7 +211,6 @@ Args.prototype = {
 
     help: function (cmdName, cmd) {
         var cmds = this._cmds;
-        var options = this._options;
         var usage = (this.binName || '').bold.green + ' [command]'.blue + ' [option]\n'.blue;
 
         if(cmdName){
@@ -272,7 +281,7 @@ Args.prototype = {
             var describe = conf.describe || '';
             var alias = conf.alias;
             var params = conf.params || [];
-            var optStr = (alias ? '-' + alias + ', ' : '') + '--' + key;
+            var optStr = (alias ? '-' + alias + ', ' : '') + '--' + opt.originName;
             var optStrLen = optStr.length + (params.length ? params.join(' ').length : 0);
 
             if(optStrLen > maxLength){
