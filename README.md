@@ -82,7 +82,7 @@ $ example --help
 
 - [ ] Command对应Option处理（可能和全局的冲突／alias）
 - [x] 支持`--option=argument`格式
-- [ ] 支持`--`和`-`后的内容不再解析
+- [x] 支持`--`和`-`后的内容不再解析
 - [ ] 支持Argument校验
 - [ ] 脚手架生成模板
 - [ ] 编写文档

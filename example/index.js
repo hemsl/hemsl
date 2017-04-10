@@ -5,9 +5,6 @@
 
 'use strict';
 
-console.log(require('minimist')('one two three -- four five --six'.split(' '), { '--': true }))
-console.log(require('minimist')('one two three -- four five --six --seven=7'.split(' ')));
-
 // test
 
 var Args = require('../src');
@@ -136,6 +133,7 @@ args
     // 'pack --debug',
     // 'pack dev --debug',
     // 'pack dev true --debug',
+    'start --help - --no-color --log-time --max=7',
     '--grep something --log-time',
     '--version',
     'start 8901 0.0.0.0 ./publish/',

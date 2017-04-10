@@ -51,10 +51,10 @@ Args.prototype = {
 
             if(currInfo.dashCount === curr.length){
                 // `--`或者`-`
-                if(currInfo.dashCount === 1){
-                    result._ = result._.concat(args.slice(index + 1));
+                if(this.config.__ !== true){
+                    result._ = result._.concat(args.slice(i + 1));
                 }else{
-                    result.__ = args.slice(index + 1);
+                    result.__ = args.slice(i + 1);
                 }
                 break;
             }
