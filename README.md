@@ -55,7 +55,9 @@ args
 - [x] 支持`--option=argument`格式
 - [x] 支持`--`和`-`后的内容不再解析
 - [x] 支持Argument校验
-- [ ] 支持Argument正则表达式/function校验
+- [ ] 支持Option数据类型
+- [x] 支持Argument正则表达式/function校验
+- [ ] 修改option,command定义方式，直接使用Object
 - [ ] 脚手架生成模板
 - [ ] 编写文档
 - [ ] 完善测试

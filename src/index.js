@@ -138,15 +138,21 @@ Args.prototype = {
                 var params = optDefine && optDefine.config.params;
                 var alias = this._getAlias(result._[0], optName);
 
-                // 校验参数是否正确
+                // 校验参数个数是否正确
                 if(Array.isArray(params) && params.length > 0 && optValue === DEFAULT_VALUE){
-                    error = ['Error: 选项', optName, params.join(' '), '的值不正确'].join(' ');
+                    error = ['Error: 选项', optName, params.join(' '), '的参数缺失'].join(' ');
                     // break;
                 }
                 
                 // 设置默认值
                 if(optValue === DEFAULT_VALUE){
                     result[optName] = (optDefine && ('default' in optDefine.config)) ? optDefine.config.default : true;
+                }else if(optDefine){
+                    if(optDefine.config.validate){
+                        if(optDefine.config.validate(optValue, result) === false){
+                            error = ['Error: 选项', optName, (params || []).join(' '), '的值不正确'].join(' ')
+                        }
+                    }
                 }
 
                 // 处理alias

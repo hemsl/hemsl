@@ -70,7 +70,20 @@ args
     .option('platform <os>', {
         default: 'all',
         describe: 'The target platform to publish(global)',
-        alias: 'p'
+        alias: 'p',
+        validate: /^(all|osx|win32|unix)$/i
+    })
+    .option('tag <tag>', {
+        default: 'all',
+        describe: 'The target platform to publish(global)',
+        alias: 'p',
+        validate: function(val, result){
+            if(val === 'all' || val.indexOf('beta-') === 0 || val.indexOf('dev-') === 0){
+                return true;
+            }else{
+                return false;
+            }
+        }
     });
 
 [
@@ -85,10 +98,17 @@ args
     'publish 127.0.0.1 ./ --platform osx',
     'publish 127.0.0.1 ./ -p',
     '--platform',
+    '--platform windows',
+    '--platform osx',
+    '--tag',
+    '--tag all',
+    '--tag beta-1',
+    '--tag dev-1',
+    '--tag latest'
 ].forEach(function(argStr){
     console.log();
     console.log('$'.bold.bold.magenta, 'example', argStr.bold.magenta, '\n');
     var res = args.parse(argStr.split(/\s+/));
-    console.log(res);
+    // console.log(res);
     console.log('\n');
 });
