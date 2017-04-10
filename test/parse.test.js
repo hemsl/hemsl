@@ -105,7 +105,8 @@ describe('helpers/args.js (Args Parse):\n', function (){
         + '-H=./result/ '
         + '--log-time '
         + '--time-format '
-        + '--date-format yy-m-d ';
+        + '--date-format yy-m-d '
+        + '-- three --four --five=5 -O 8 -XYZ';
 
     var _args = args.parse(argv.split(' '));
 
@@ -180,6 +181,17 @@ describe('helpers/args.js (Args Parse):\n', function (){
             });
         });
 
+        describe('正确处理`--`|`-`之后的参数: ', function(){
+            it('`--`之后的参数', function(){
+                assert.notEqual(_args._.indexOf('three'), -1);
+                assert.notEqual(_args._.indexOf('--four'), -1);
+                assert.notEqual(_args._.indexOf('--five=5'), -1);
+                assert.notEqual(_args._.indexOf('-O'), -1);
+                assert.notEqual(_args._.indexOf('8'), -1);
+                assert.notEqual(_args._.indexOf('-XYZ'), -1);
+            });
+        });
+
         describe('正确处理默认值: ', function(){
             it('"log-time" : {} ==> --log-time ==> {logTime: true}', function(){
                 assert.equal(_args.logTime, true);
@@ -202,7 +214,7 @@ describe('helpers/args.js (Args Parse):\n', function (){
 
         it('传入正确的参数', function (){
             assert.ok(
-                startArguments.length === 2 &&
+                startArguments.length >= 2 &&
                 startArguments[0] === 'subcmd' &&
                 startArguments[1] === 'subcmd1'                
             );
