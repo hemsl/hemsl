@@ -1,6 +1,6 @@
 {
   "name": "hemsl",
-  "version": "1.0.0",
+  "version": "1.0.1-beta",
   "description": "Node.js command line argv parser",
   "main": "index.js",
   "directories": {
@@ -20,7 +20,10 @@
     "args",
     "parser"
   ],
-  "author": "zdying",
+  "author": "zdying <zdying@live.com>",
+  "contributors": [
+    "i5ting"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/zdying/node-argv-parser/issues"
