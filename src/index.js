@@ -10,6 +10,8 @@ var utils = require('./utils');
 var Command = require('./Command');
 var Option = require('./Option');
 
+var DEFAULT_VALUE = '__default_value__';
+
 // http://stackoverflow.com/questions/9725675/is-there-a-standard-format-for-command-line-shell-help-text
 // http://docopt.org/
 
@@ -35,7 +37,21 @@ function Args(config) {
 Args.prototype = {
     constructor: Args,
     parse: function (_argv) {
-        var args = Array.isArray(_argv) ? _argv : process.argv.slice(2);
+        var args = Array.isArray(_argv) ? _argv : process.argv.slice(2)
+        var result = this._parse(args);
+        var error = this._checkOption(result);
+        
+        if(!error){
+            this._execute(result);
+        }else{
+            console.log(error);
+            // return {};
+        }
+
+        return result;
+    },
+
+    _parse: function(args){
         var curr, currInfo, currValue, next, nextInfo, optName;
         var isFullArg, isShortArg;
         var result = {_: []};
@@ -66,7 +82,7 @@ Args.prototype = {
                     // 如果当前argv是option
                     if (!next || nextInfo.isOption){
                         // 如果下一个argv是option(不是当前option的argument)
-                        currValue = true;
+                        currValue = DEFAULT_VALUE;
                     }else{
                         // 下一个argv是当前option的argument
                         currValue = next;
@@ -90,9 +106,46 @@ Args.prototype = {
             }
         }
 
+        return result;
+    },
+
+    _getOption: function(result){
+
+    },
+
+    /**
+     * 校验option参数
+     */
+    _checkOption: function(result){
+        var cmdName = result._[0];
+        var cmd = this._cmds[cmdName] || {};
+        var cmdOptions = cmd.options || {};
+        var globalOptions = this._options;
+        var error = '';
+
+        for(var optName in result){
+            if(!/^\_{1,2}$/.test(optName)){debugger
+                var optValue = result[optName];
+                var optDefine = cmdOptions[optName] || globalOptions[optName];
+                var params = optDefine && optDefine.config.params;
+
+                if(Array.isArray(params) && params.length > 0 && optValue === DEFAULT_VALUE){
+                    error = ['Error: 选项', optName, params.join(' '), '的值不正确'].join(' ');
+                    // break;
+                }
+                
+                if(optValue === DEFAULT_VALUE){
+                    result[optName] = true;
+                }
+            }
+        }
+        return error;
+    },
+
+    _execute: function(result){
         var cmdName = result._[0];
 
-        if (cmdName) {
+        if(cmdName){
             if (this._cmds[cmdName]) {
                 if (result.help) {
                     this.help(cmdName, this._cmds[cmdName]);
@@ -102,15 +155,15 @@ Args.prototype = {
             } else {
                 console.log('\ncommand `' + cmdName + '` not exists\n');
             }
-        } else {
-            if (result.version) {
+        }else{
+            if(result.version) {
                 console.log(this._version);
             } else if (result.help) {
                 this.help();
             }
         }
 
-        return result
+        return this;
     },
                                                                                                                                                                                                                                                                                                                                                               
     _setValue: function(result, option, value){

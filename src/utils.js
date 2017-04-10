@@ -36,13 +36,6 @@ module.exports = {
             }
         }
     },
-    isLongOption: function(str) {
-        return str.indexOf('--') === 0;
-    },
-
-    isShortOption: function(str) {
-        return str.indexOf('-') === 0;
-    },
 
     toCamelCase: function(str) {
         return (str || '').replace(/-(\w)/g, function (match, letter) {

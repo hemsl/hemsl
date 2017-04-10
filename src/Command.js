@@ -7,6 +7,7 @@
 var Option = require('./Option');
 
 function Command(cmd, config) {
+    //TODO 代码优化
     var cmdArr = cmd.split(/\s+/);
     var cmdName = cmdArr[0];
 
@@ -31,21 +32,15 @@ function Command(cmd, config) {
                 break;
             }
         }
-        
+
         func = function () {
             if (arguments.length < paramsLen) {
-                console.log("参数个数不对, 期待`" + paramsLen + "`个，实际接收到`" + arguments.length + "`个")
+                console.log('error: 命令`' + cmd + '` ' + "参数个数不对, 期待`" + paramsLen + "`个，实际接收到`" + arguments.length + "`个")
             } else {
                 config.fn.apply(this, arguments)
             }
         }
     }
-
-    this.name = cmdName;
-    this.describe = config.describe || '';
-    this.usage = config.usage || '';
-    this.fn = func;
-    this.options = options;
 
     var confOpt = config.options || {};
 
@@ -59,6 +54,12 @@ function Command(cmd, config) {
          options[option.name] = option;
     });
 
+    this.name = cmdName;
+    this.describe = config.describe || '';
+    this.usage = config.usage || '';
+    this.fn = func;
+    this.options = options;
+
     return this;
 }
 
@@ -66,7 +67,8 @@ Command.prototype = {
     constructor: Command,
 
     option: function(key, opt){
-        this.options[key] = new Option(key, opt);
+        var option = new Option(key, opt);
+        this.options[option.name] = option;
         return this;
     },
 

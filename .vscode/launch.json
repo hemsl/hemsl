@@ -7,8 +7,14 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "启动程序",
+            "name": "example",
             "program": "${workspaceRoot}/example/index.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "cmd_global",
+            "program": "${workspaceRoot}/example/cmd_global.js"
         }
     ]
 }
