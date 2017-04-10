@@ -9,7 +9,44 @@ Node.js command line argv parser
 # Example
 
 ```
-TODO
+var Args = require('hemsl');
+var args = new Args();
+
+args
+.bin('example')
+.version('1.12.150-rc');
+
+args
+.command('publish <ip> <dir>', {
+    describe: '发布模块到npm/github/yarn',
+    usage: 'xxx sync 192.168.1.100 ./',
+    // group: '',
+    fn: function(ip, dir){
+        console.log('同步： ' + dir + ' ==> ' + ip);
+    },
+    options: {
+        'user': {
+            default: '',
+            describe: 'Your user name (nodejs.org)',
+            alias: 'u'
+        },
+        'tag': {
+            default: '',
+            describe: 'Publish branch tag',
+            alias: 't'
+        }
+    }
+})
+.option('private', {
+    default: '',
+    describe: 'Publish for private use',
+    alias: 'P'
+})
+.option('platform', {
+    default: 'all',
+    describe: 'The target platform to publish',
+    alias: 'p'
+});
 ```
 
 ## TODO
