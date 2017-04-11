@@ -118,19 +118,19 @@ args.command('start <port> [ip]', {
 ### API
 
 #### Args
-* .version(ver='1.0.0') => Args
+##### .version(ver='1.0.0') => Args
 
 设置App版本号，默认值为`1.0.0`。这个版本号会在全局`-v`/`--version`的时候显示。
 
-* .bin(binName) => Args
+##### .bin(binName) => Args
 
 设置App的命令名称。
 
-* .option(key, config) => Args
+##### .option(key, config) => Args
 
 添加全局选项。
 
-* .command(key, config) => Command
+##### .command(key, config) => Command
 
 添加命令
 
