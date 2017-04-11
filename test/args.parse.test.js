@@ -70,7 +70,8 @@ describe('helpers/args.js (Args Parse):\n', function (){
         alias: 'p',
         describe: 'option name: port/p'
     })
-    .option('t', {
+    .option({
+        option: 't',
         alias: 'two',
         describe: 'option name: two/t'
     })
@@ -86,6 +87,11 @@ describe('helpers/args.js (Args Parse):\n', function (){
     })
     .option('path', {
         alias: 'H'
+    })
+    .option({
+        option: 'some',
+        alias: 'O',
+        describe: 'some thing'
     });
 
     var argv = 
@@ -98,6 +104,7 @@ describe('helpers/args.js (Args Parse):\n', function (){
         + '-b val '
         + '-s *.a.com,*.a.cn '
         + '-P /file/path/xxx '
+        + '--some thing '
         + 'subcmd1 '
         + '-def '
         + '-ot two_val '
@@ -287,7 +294,8 @@ describe('helpers/args.js (Args Parse):\n', function (){
         it('should parse command option right: ', function(){
             var execed = false;
             args
-                .command('start-server', {
+                .command({
+                    command: 'start-server', 
                     fn: function(){
                         execed = true;
                     },

@@ -192,6 +192,11 @@ Args.prototype = {
     },
 
     option: function (key, opt) {
+        if(typeof key === 'object'){
+            opt = key;
+            key = opt.option
+        }
+
         var option = new Option(key, opt);
         var alias = option.config.alias;
         var name = option.name;
@@ -207,6 +212,11 @@ Args.prototype = {
     },
 
     command: function (cmd, config) {
+        if(typeof cmd === 'object'){
+            config = cmd;
+            cmd = config.command
+        }
+
         var command = new Command(cmd, config);
         var cmdName = command.name;
 

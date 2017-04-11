@@ -33,12 +33,14 @@ args
 ### 添加全局选项(option)
 ```js
 args
-    .option('debug', {
+    .option(, {
+        option: 'debug',
         default: true,
         describe: '显示调试信息（全局配置）',
         alias: 'd'
     })
-    .option('grep <expression>', {
+    .option({
+        option: 'grep <expression>',
         default: true,
         describe: '日志内容过滤（全局配置）',
         alias: 'g'
@@ -47,7 +49,8 @@ args
 
 ### 添加命令(command)
 ```js
-args.command('start <port> [ip]', {
+args.command({
+    command: 'start <port> [ip]',
     describe: '启动本地测试服务',
     usage: 'example start <port> [ip] [options]',
     /**
@@ -78,7 +81,8 @@ args.command('start <port> [ip]', {
 
 #### 方法一
 ```js
-args.command('start <port> [ip]', {
+args.command({
+    command: 'start <port> [ip]',
     describe: '...',
     usage: '...',
     fn: function(port, ip){
@@ -102,15 +106,18 @@ args.command('start <port> [ip]', {
 #### 方法二
 
 ```js
-args.command('start <port> [ip]', {
+args.command({
+    command: 'start <port> [ip]', 
     // ...
 })
-.option('date-format', {
+.option({
+    option: 'date-format', 
     default: 'yyyy-MM-dd',
     alias: 'R',
     describe: 'date format string'
 })
-.option('time-format', {
+.option({
+    option: 'time-format',  
     alias: 'm',
     default: 'HH:mm:ss',
     describe: 'time format string'
