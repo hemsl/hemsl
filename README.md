@@ -151,7 +151,7 @@ args.command({
 
 添加命令。
 
-#### .parse(config, execute=false) => Object
+#### .parse([argv,] execute=false) => Object
 
 解析参数，返回解析后的参数对象。如果参数`execute`为`true`，自动执行`argv`中的命令。
 
