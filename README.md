@@ -1,5 +1,6 @@
 # hemsl
-Node.js command line argv parser
+
+hemsl是一个轻量级的命令行参数解析器，也支持命令执行。hemsl能根据定义，自动生成帮助信息。
 
 [![Build Status](https://travis-ci.org/hemsl/hemsl.svg?branch=master)](https://travis-ci.org/hemsl/hemsl)
 [![Coverage Status](https://coveralls.io/repos/github/hemsl/hemsl/badge.svg?branch=master)](https://coveralls.io/github/hemsl/hemsl?branch=master)
@@ -133,7 +134,15 @@ args.command('start <port> [ip]', {
 
 #### .command(key, config) => Command
 
-添加命令
+添加命令。
+
+#### .parse(config) => Object
+
+解析参数，返回解析后的参数对象。
+
+#### .execute(config) => Args
+
+执行`argv`中指定的命令。
 
 ### Option
 
@@ -153,6 +162,8 @@ args.command('start <port> [ip]', {
 - [x] 支持Argument校验
 - [ ] 支持Option数据类型
 - [x] 支持Argument正则表达式/function校验
+- [ ] `parse()`方法默认不执行命令，同时添加配置（是否执行）
+- [ ] 添加`execute()`方法来手动执行命令
 - [ ] 修改option,command定义方式，直接使用Object
 - [ ] 脚手架生成模板
 - [ ] 编写文档
