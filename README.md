@@ -172,7 +172,7 @@ args.command({
 - [x] 支持Argument正则表达式/function校验
 - [ ] `parse()`方法默认不执行命令，同时添加配置（是否执行）
 - [ ] 添加`execute()`方法来手动执行命令
-- [ ] 修改option,command定义方式，直接使用Object
+- [x] 修改option,command定义方式，直接使用Object
 - [ ] 脚手架生成模板
 - [ ] 编写文档
 - [ ] 完善测试
