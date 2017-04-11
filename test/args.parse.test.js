@@ -115,7 +115,7 @@ describe('helpers/args.js (Args Parse):\n', function (){
         + '--date-format yy-m-d '
         + '-- three --four --five=5 -O 8 -XYZ';
 
-    var _args = args.parse(argv.split(' '));
+    var _args = args.parse(argv.split(' '), true);
 
     console.log('input: \n', argv);
     console.log('output: \n', _args);
@@ -242,25 +242,25 @@ describe('helpers/args.js (Args Parse):\n', function (){
         });
 
         it('print full help info', function(){
-            args.parse('--help'.split(' '));
+            args.parse('--help'.split(' '), true);
 
             assert.ok(hook.captured().indexOf('example-test') !== -1)
         });
 
         it('print help info for cmd', function(){
-            args.parse('start --help'.split(' '));
+            args.parse('start --help'.split(' '), true);
 
             assert.ok(hook.captured().indexOf('example start -p 9900 --https') !== -1)
         });
 
         it('print version info', function(){
-            args.parse('--version'.split(' '));
+            args.parse('--version'.split(' '), true);
 
             assert.ok(hook.captured().indexOf('10.100.1000') !== -1)
         });
 
         it('print error message when cmd not exists', function(){
-            args.parse('test-cmd'.split(' '));
+            args.parse('test-cmd'.split(' '), true);
             
             assert.ok(hook.captured().indexOf('command `test-cmd` not exists') !== -1);
         });
@@ -272,7 +272,7 @@ describe('helpers/args.js (Args Parse):\n', function (){
                     name = _name;
                 }
             })
-            args.parse('what'.split(' '));
+            args.parse('what'.split(' '), true);
             
             assert.ok(hook.captured().indexOf('参数个数不对') !== -1 && name === '');
         });
@@ -287,6 +287,7 @@ describe('helpers/args.js (Args Parse):\n', function (){
             });
 
             args.parse('what zdying 23'.split(' '));
+            args.execute();
 
             assert.ok(name === 'zdying' && age === '23');
         });
@@ -318,6 +319,8 @@ describe('helpers/args.js (Args Parse):\n', function (){
                 });
 
             var ress = args.parse('start-server --help'.split(' '));
+            
+            args.execute();
 
             // console.log('====>', ress);
             var reslog = hook.captured();
