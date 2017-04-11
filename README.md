@@ -144,9 +144,9 @@ args.command({
 
 添加命令。
 
-#### .parse(config) => Object
+#### .parse(config, execute=false) => Object
 
-解析参数，返回解析后的参数对象。
+解析参数，返回解析后的参数对象。如果参数`execute`为`true`，自动执行`argv`中的命令。
 
 #### .execute(config) => Args
 
@@ -170,8 +170,8 @@ args.command({
 - [x] 支持Argument校验
 - [ ] 支持Option数据类型
 - [x] 支持Argument正则表达式/function校验
-- [ ] `parse()`方法默认不执行命令，同时添加配置（是否执行）
-- [ ] 添加`execute()`方法来手动执行命令
+- [x] `parse()`方法默认不执行命令，同时添加配置（是否执行）
+- [x] 添加`execute()`方法来手动执行命令
 - [x] 修改option,command定义方式，直接使用Object
 - [ ] 脚手架生成模板
 - [ ] 编写文档

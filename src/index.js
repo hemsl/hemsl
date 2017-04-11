@@ -19,6 +19,7 @@ function Args(config) {
     this._options = {};
     this._cmds = {};
     this._aliasCache = {};
+    this.result = {};
     this.config = config || {};
 
     this.option('version', {
@@ -36,18 +37,23 @@ function Args(config) {
 
 Args.prototype = {
     constructor: Args,
-    parse: function (_argv) {
+    parse: function (_argv, execute) {
         var args = Array.isArray(_argv) ? _argv : process.argv.slice(2)
-        var result = this._parse(args);
+        var result = this.result = this._parse(args);
         var error = this._checkOption(result);
         
-        if(!error){
+        if(!error && (_argv === true || execute === true)){
             this._execute(result);
         }else{
             console.log(error);
         }
 
         return result;
+    },
+
+    execute: function(){
+        this._execute(this.result);
+        return this;
     },
 
     _parse: function(args){
@@ -168,7 +174,7 @@ Args.prototype = {
      * 执行命令
      */
     _execute: function(result){
-        var cmdName = result._[0];
+        var cmdName = this.result._[0];
 
         if(cmdName){
             if (this._cmds[cmdName]) {
