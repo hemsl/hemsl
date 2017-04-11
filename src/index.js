@@ -4,6 +4,7 @@
  */
 
 'use strict';
+
 var colors = require('colors');
 var utils = require('./utils');
 

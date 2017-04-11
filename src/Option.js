@@ -16,14 +16,12 @@ function Option(key, config) {
     var alias = config.alias;
     var validate = config.validate;
     
-
     if(params.length > 0){
         config.params = params;
     }
 
     // this.name = key;
     //this.config = config;
-
 
     if(optKey.length === 1 && alias && alias.length > 1){
         config.alias = optKey;        

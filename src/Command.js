@@ -4,6 +4,7 @@
  */
 
 'use strict';
+
 var Option = require('./Option');
 
 function Command(cmd, config) {
@@ -41,8 +42,6 @@ function Command(cmd, config) {
             }
         }
     }
-
-    
 
     this.name = cmdName;
     this.describe = config.describe || '';
