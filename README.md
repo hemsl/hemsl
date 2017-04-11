@@ -10,8 +10,15 @@ hemsl是一个轻量级的命令行参数解析器，也支持命令执行。hem
 
 ## 安装
 
+### 使用`npm`
+
 ```bash
 npm install hemsl --save
+```
+
+### 使用`yarn`
+```bash
+yarn add hemsl
 ```
 
 ## 使用
