@@ -12,7 +12,7 @@ Node.js command line argv parser
 npm install hemsl --save
 ```
 
-### 使用
+## 使用
 
 #### 创建实例
 
@@ -115,28 +115,28 @@ args.command('start <port> [ip]', {
 });
 ```
 
-### API
+## API
 
-#### Args
-##### .version(ver='1.0.0') => Args
+### Args
+#### .version(ver='1.0.0') => Args
 
 设置App版本号，默认值为`1.0.0`。这个版本号会在全局`-v`/`--version`的时候显示。
 
-##### .bin(binName) => Args
+#### .bin(binName) => Args
 
 设置App的命令名称。
 
-##### .option(key, config) => Args
+#### .option(key, config) => Args
 
 添加全局选项。
 
-##### .command(key, config) => Command
+#### .command(key, config) => Command
 
 添加命令
 
-#### Option
+### Option
 
-#### Command
+### Command
 
 ## 其他示例
 
