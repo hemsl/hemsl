@@ -136,11 +136,11 @@ args.command({
 
 设置App的命令名称。
 
-#### .option(key, config) => Args
+#### .option(config) => Args
 
 添加全局选项。
 
-#### .command(key, config) => Command
+#### .command(config) => Command
 
 添加命令。
 
