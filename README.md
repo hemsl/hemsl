@@ -6,29 +6,29 @@ Node.js command line argv parser
 [![npm](https://img.shields.io/npm/v/hemsl.svg)](https://www.npmjs.com/package/hemsl)
 [![npm](https://img.shields.io/npm/l/hemsl.svg)](https://raw.githubusercontent.com/hemsl/hemsl/master/LICENSE)
 
-## 安装
+# 安装
 
 ```bash
 npm install hemsl --save
 ```
 
-## 使用
+# 使用
 
-#### 创建实例
+## 创建实例
 
 ```js
 var Args = require('hemsl');
 var args = new Args();
 ```
 
-#### 设定App版本和命令名称
+## 设定App版本和命令名称
 ```js
 args
     .version('1.1.0')
     .bin('example');
 ```
 
-#### 添加全局选项(option)
+## 添加全局选项(option)
 ```js
 args
     .option('debug', {
@@ -43,7 +43,7 @@ args
     });
 ```
 
-#### 添加命令(command)
+## 添加命令(command)
 ```js
 args.command('start <port> [ip]', {
     describe: '启动本地测试服务',
@@ -67,14 +67,14 @@ args.command('start <port> [ip]', {
 });
 ```
 
-#### 给命令添加选项(option)
+## 给命令添加选项(option)
 
 给命令添加选项，有两种方式：
 
 * 方法一：调用`args.command()`方法是，设置配置字段`options`
 * 方法二：调用`args.command()`返回对象的`option()`方法
 
-##### 方法一
+### 方法一
 ```js
 args.command('start <port> [ip]', {
     describe: '...',
@@ -97,7 +97,7 @@ args.command('start <port> [ip]', {
 });
 ```
 
-##### 方法二
+### 方法二
 
 ```js
 args.command('start <port> [ip]', {
@@ -115,40 +115,37 @@ args.command('start <port> [ip]', {
 });
 ```
 
-## API
+# API
 
-### Args
+## Args
 
-#### .version(ver='1.0.0') => Args
----
+## .version(ver='1.0.0') => Args
 
 设置App版本号，默认值为`1.0.0`。这个版本号会在全局`-v`/`--version`的时候显示。
 
-#### .bin(binName) => Args
-
----
+## .bin(binName) => Args
 
 设置App的命令名称。
 
-#### .option(key, config) => Args
+## .option(key, config) => Args
 
 添加全局选项。
 
-#### .command(key, config) => Command
+### .command(key, config) => Command
 
 添加命令
 
-### Option
+## Option
 
-### Command
+## Command
 
-## 其他示例
+# 其他示例
 
 参考：
 * [example 1](./example/index.js)
 * [example 2](./example/cmd_global.js)
 
-## TODO
+# TODO
 
 - [x] Command对应Option处理（可能和全局的冲突／alias）
 - [x] 支持`--option=argument`格式
