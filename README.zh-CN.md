@@ -165,18 +165,3 @@ args.command({
 参考：
 * [example 1](./example/index.js)
 * [example 2](./example/cmd_global.js)
-
-## TODO
-
-- [x] Command对应Option处理（可能和全局的冲突／alias）
-- [x] 支持`--option=argument`格式
-- [x] 支持`--`和`-`后的内容不再解析
-- [x] 支持Argument校验
-- [ ] 支持Option数据类型
-- [x] 支持Argument正则表达式/function校验
-- [ ] `parse()`方法默认不执行命令，同时添加配置（是否执行）
-- [ ] 添加`execute()`方法来手动执行命令
-- [x] 修改option,command定义方式，直接使用Object
-- [ ] 脚手架生成模板
-- [ ] 编写文档
-- [ ] 完善测试
