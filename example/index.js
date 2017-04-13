@@ -3,17 +3,17 @@
  * @author zdying
  */
 
-'use strict';
+'use strict'
 
 // test
 
-var Args = require('../src');
+var Args = require('../src')
 
-var args = new Args();
+var args = new Args()
 
 args
 .bin('example')
-.version('1.12.150-rc');
+.version('1.12.150-rc')
 
 // args.command('publish <ip> <dir>', {
 //     describe: '发布模块到npm/github/yarn',
@@ -47,10 +47,10 @@ args
 // });
 
 args.command('start <port> [ip]', {
-    describe: '启动本地测试服务',
-    usage: 'example start <port> [ip] [options]',
-    fn: function(port, ip){
-        console.log('Server started at', ('http://' + ip + ':' + port).underline.magenta.bold);
+  describe: '启动本地测试服务',
+  usage: 'example start <port> [ip] [options]',
+  fn: function (port, ip) {
+    console.log('Server started at', ('http://' + ip + ':' + port).underline.magenta.bold)
 
         // var http = require('http');
 
@@ -60,80 +60,79 @@ args.command('start <port> [ip]', {
         // });
 
         // server.listen(port, ip);
+  },
+  options: {
+    'https': {
+      default: true,
+      describe: 'start https server',
+      alias: 's'
     },
-    options: {
-        'https': {
-            default: true,
-            describe: 'start https server',
-            alias: 's'
-        },
-        'p': {
-            default: '',
-            describe: 'output path',
-            alias: 'port',
-            usage: ''
-        },
-        'hot-reload': {
-            alias: 'H',
-            describe: 'enable hot reload'
-        }
+    'p': {
+      default: '',
+      describe: 'output path',
+      alias: 'port',
+      usage: ''
+    },
+    'hot-reload': {
+      alias: 'H',
+      describe: 'enable hot reload'
     }
+  }
 })
 .option('date-format', {
-    default: 'yyyy-MM-dd',
-    alias: 'R',
-    describe: 'date format string'
+  default: 'yyyy-MM-dd',
+  alias: 'R',
+  describe: 'date format string'
 })
 .option('time-format', {
-    alias: 'm',
-    default: 'HH:mm:ss',
-    describe: 'time format string'
-});
+  alias: 'm',
+  default: 'HH:mm:ss',
+  describe: 'time format string'
+})
 
 args.command('sync <ip> <dir>', {
-    describe: '同步代码到服务器',
-    usage: 'xxx sync 192.168.1.100 ./',
+  describe: '同步代码到服务器',
+  usage: 'xxx sync 192.168.1.100 ./',
     // group: '',
-    fn: function(ip, dir){
-        console.log('同步： ' + dir + ' ==> ' + ip);
+  fn: function (ip, dir) {
+    console.log('同步： ' + dir + ' ==> ' + ip)
+  },
+  options: {
+    'https': {
+      default: true,
+      describe: 'start https server',
+      alias: 's'
     },
-    options: {
-        'https': {
-            default: true,
-            describe: 'start https server',
-            alias: 's'
-        },
-        'P': {
-            default: '',
-            describe: 'output path',
-            alias: 'output-path',
-            usage: 'output-path <path>'
-        }
+    'P': {
+      default: '',
+      describe: 'output path',
+      alias: 'output-path',
+      usage: 'output-path <path>'
     }
-});
+  }
+})
 
 args
     .option('debug', {
-        default: true,
-        describe: '显示调试信息（全局配置）',
-        alias: 'd'
+      default: true,
+      describe: '显示调试信息（全局配置）',
+      alias: 'd'
     })
     .option('detail', {
-        default: true,
-        describe: '显示详细的调试信息（全局配置）',
-        alias: 'D'
+      default: true,
+      describe: '显示详细的调试信息（全局配置）',
+      alias: 'D'
     })
     .option('log-time', {
-        default: true,
-        describe: '显示详日志打印时间（全局配置）',
-        alias: 'T'
+      default: true,
+      describe: '显示详日志打印时间（全局配置）',
+      alias: 'T'
     })
     .option('grep <expression>', {
-        default: true,
-        describe: '日志内容过滤（全局配置）',
-        alias: 'g'
+      default: true,
+      describe: '日志内容过滤（全局配置）',
+      alias: 'g'
     });
-
 
 [
     // 'init --help',
@@ -143,18 +142,18 @@ args
     // 'pack --debug',
     // 'pack dev --debug',
     // 'pack dev true --debug',
-    'start --help - --no-color --log-time --max=7',
-    '--grep something --log-time',
-    '--version',
-    'start 8901 0.0.0.0 ./publish/',
-    'publish -h',
-    'start --help',
-    '-m h:m:s --hot-reload --port 9999 start 9999 127.0.0.1 --grep info --log-time --time-format h:m:s --date-format',
-    '--help',
-].forEach(function(argStr){
-    console.log();
-    console.log('$'.bold.bold.magenta, 'example', argStr, '\n');
-    var res = args.parse(argStr.split(/\s+/));
-    // console.log(res);
-    console.log('\n');
-});
+  'start --help - --no-color --log-time --max=7',
+  '--grep something --log-time',
+  '--version',
+  'start 8901 0.0.0.0 ./publish/',
+  'publish -h',
+  'start --help',
+  '-m h:m:s --hot-reload --port 9999 start 9999 127.0.0.1 --grep info --log-time --time-format h:m:s --date-format',
+  '--help'
+].forEach(function (argStr) {
+  console.log()
+  console.log('$'.bold.bold.magenta, 'example', argStr, '\n')
+  var res = args.parse(argStr.split(/\s+/))
+  console.log(res)
+  console.log('\n')
+})

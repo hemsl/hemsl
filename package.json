@@ -7,9 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "mocha": "mocha test/*.js",
+    "style": "standard \"src/*.js\" \"example/**/*.js\"",
+    "mocha": "npm run style && mocha test/*.js",
     "cover": "istanbul cover _mocha test/*.js",
-    "test": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
+    "test": "npm run style && npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "coveralls": "^2.13.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
-    "mocha-lcov-reporter": "^1.3.0"
+    "mocha-lcov-reporter": "^1.3.0",
+    "standard": "^10.0.1"
   }
 }
