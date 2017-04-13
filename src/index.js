@@ -13,9 +13,6 @@ var Option = require('./Option')
 
 var DEFAULT_VALUE = '__default_value__'
 
-// http://stackoverflow.com/questions/9725675/is-there-a-standard-format-for-command-line-shell-help-text
-// http://docopt.org/
-
 function Args (config) {
   this._options = {}
   this._cmds = {}
@@ -173,9 +170,9 @@ Args.prototype = {
     return error
   },
 
-    /**
-     * 执行命令
-     */
+  /**
+   * 执行命令
+   */
   _execute: function (result) {
     var cmdName = this.result._[0]
 
