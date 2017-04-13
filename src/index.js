@@ -22,6 +22,7 @@ function Args(config) {
     this._aliasCache = {};
     this.result = {};
     this.config = config || {};
+    this._version = '1.0.0';
 
     this.option('version', {
         default: true,
