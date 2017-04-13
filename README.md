@@ -39,50 +39,50 @@ var args = new Args();
 ### 设定App版本和命令名称
 ```js
 args
-    .version('1.1.0')
-    .bin('example');
+  .version('1.1.0')
+  .bin('example')
 ```
 
 ### 添加全局选项(option)
 ```js
 args
-    .option(, {
-        option: 'debug',
-        default: true,
-        describe: '显示调试信息（全局配置）',
-        alias: 'd'
-    })
-    .option({
-        option: 'grep <expression>',
-        default: true,
-        describe: '日志内容过滤（全局配置）',
-        alias: 'g'
-    });
+  .option(, {
+    option: 'debug',
+    default: true,
+    describe: '显示调试信息（全局配置）',
+    alias: 'd'
+  })
+  .option({
+    option: 'grep <expression>',
+    default: true,
+    describe: '日志内容过滤（全局配置）',
+    alias: 'g'
+  })
 ```
 
 ### 添加命令(command)
 ```js
 args.command({
-    command: 'start <port> [ip]',
-    describe: '启动本地测试服务',
-    usage: 'example start <port> [ip] [options]',
-    /**
-     * 处理命令`start`的function
-     * 启动一个服务
-     */
-    fn: function(port, ip){
-        console.log('Server started at', 'http://' + ip + ':' + port);
+  command: 'start <port> [ip]',
+  describe: '启动本地测试服务',
+  usage: 'example start <port> [ip] [options]',
+  /**
+    * 处理命令`start`的function
+    * 启动一个服务
+    */
+  fn: function(port, ip){
+    console.log('Server started at', 'http://' + ip + ':' + port)
 
-        var http = require('http');
+    var http = require('http')
 
-        var server = http.createServer(function(req, res){
-            console.log(req.method.bold.gray, req.url);
-            res.end(req.url);
-        });
+    var server = http.createServer(function(req, res){
+        console.log(req.method.bold.gray, req.url);
+        res.end(req.url)
+    })
 
-        server.listen(port, ip);
-    }
-});
+    server.listen(port, ip)
+  }
+})
 ```
 
 ### 给命令添加选项(option)
@@ -95,24 +95,24 @@ args.command({
 #### 方法一
 ```js
 args.command({
-    command: 'start <port> [ip]',
-    describe: '...',
-    usage: '...',
-    fn: function(port, ip){
-        //...
+  command: 'start <port> [ip]',
+  describe: '...',
+  usage: '...',
+  fn: function(port, ip){
+      //...
+  },
+  options: {
+    'p': {
+      default: '',
+      describe: 'service port',
+      alias: 'port',
+      usage: ''
     },
-    options: {
-        'p': {
-            default: '',
-            describe: 'service port',
-            alias: 'port',
-            usage: ''
-        },
-        'hot-reload': {
-            alias: 'H',
-            describe: 'enable hot reload'
-        }
+    'hot-reload': {
+      alias: 'H',
+      describe: 'enable hot reload'
     }
+  }
 });
 ```
 
@@ -120,21 +120,21 @@ args.command({
 
 ```js
 args.command({
-    command: 'start <port> [ip]', 
-    // ...
+  command: 'start <port> [ip]', 
+  // ...
 })
 .option({
-    option: 'date-format', 
-    default: 'yyyy-MM-dd',
-    alias: 'R',
-    describe: 'date format string'
+  option: 'date-format', 
+  default: 'yyyy-MM-dd',
+  alias: 'R',
+  describe: 'date format string'
 })
 .option({
-    option: 'time-format',  
-    alias: 'm',
-    default: 'HH:mm:ss',
-    describe: 'time format string'
-});
+  option: 'time-format',  
+  alias: 'm',
+  default: 'HH:mm:ss',
+  describe: 'time format string'
+})
 ```
 
 ## API
