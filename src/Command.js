@@ -8,7 +8,7 @@
 var Option = require('./Option')
 
 function Command (cmd, config) {
-    // TODO 代码优化
+  // TODO 代码优化
   var cmdArr = cmd.split(/\s+/)
   var cmdName = cmdArr[0]
 

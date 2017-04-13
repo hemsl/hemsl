@@ -7,7 +7,7 @@
 
 module.exports = {
   getOptionInfo: function (optionStr) {
-        // TODO 如果多于2个`-`怎么办？
+    // TODO 如果多于2个`-`怎么办？
     var reg = /^(-{1,2})?(.*?)(?:=(.*))?$/
     var res = (optionStr || '').match(reg)
     var name

@@ -39,6 +39,7 @@ function Args (config) {
 
 Args.prototype = {
   constructor: Args,
+
   parse: function (_argv, execute) {
     var args = Array.isArray(_argv) ? _argv : process.argv.slice(2)
     var result = this.result = this._parse(args)
@@ -71,7 +72,7 @@ Args.prototype = {
       optName = currInfo.option
 
       if (currInfo.dashCount === curr.length) {
-                // `--`或者`-`
+        // `--`或者`-`
         if (this.config.__ !== true) {
           result._ = result._.concat(args.slice(i + 1))
         } else {
@@ -84,22 +85,22 @@ Args.prototype = {
         if (currInfo.argument) {
           currValue = currInfo.argument
         } else {
-                    // 如果当前argv是option
+          // 如果当前argv是option
           if (!next || nextInfo.isOption) {
-                        // 如果下一个argv是option(不是当前option的argument)
+            // 如果下一个argv是option(不是当前option的argument)
             currValue = DEFAULT_VALUE
           } else {
-                        // 下一个argv是当前option的argument
+            // 下一个argv是当前option的argument
             currValue = next
             i++
           }
         }
 
         if (currInfo.isLongOption) {
-                    // eg: --sub-domains domain.com ==> {'sub-domans': 'domain.com'}
+          // eg: --sub-domains domain.com ==> {'sub-domans': 'domain.com'}
           result[utils.toCamelCase(optName)] = currValue
         } else if (currInfo.isShortOption) {
-                    // eg: -Dxo chrome ==> {D: true, x: true, o: 'chrome'}
+          // eg: -Dxo chrome ==> {D: true, x: true, o: 'chrome'}
           optName.split('').forEach(function (_optName, index) {
             result[_optName] = index === optName.length - 1 ? currValue : true
           })
@@ -133,9 +134,9 @@ Args.prototype = {
     return cmdAlias || this._aliasCache[optName]
   },
 
-    /**
-     * 校验option参数
-     */
+  /**
+   * 校验option参数
+   */
   _checkOption: function (result) {
     var error = ''
 
@@ -146,13 +147,13 @@ Args.prototype = {
         var params = optDefine && optDefine.config.params
         var alias = this._getAlias(result._[0], optName)
 
-                // 校验参数个数是否正确
+        // 校验参数个数是否正确
         if (Array.isArray(params) && params.length > 0 && optValue === DEFAULT_VALUE) {
           error = ['Error: 选项', optName, params.join(' '), '的参数缺失'].join(' ')
-                    // break;
+            // break;
         }
 
-                // 设置默认值
+        // 设置默认值
         if (optValue === DEFAULT_VALUE) {
           result[optName] = (optDefine && ('default' in optDefine.config)) ? optDefine.config.default : true
         } else if (optDefine) {
@@ -163,7 +164,7 @@ Args.prototype = {
           }
         }
 
-                // 处理alias
+        // 处理alias
         if (alias) {
           result[utils.toCamelCase(alias)] = result[optName]
         }
@@ -244,7 +245,7 @@ Args.prototype = {
 
     console.log('  ' + 'Usage:\n'.bold.underline)
     console.log('    ' + usage)
-      // commands
+    // commands
     var cmdLines = []
     var maxLength = 0
     for (var cmd in cmds) {

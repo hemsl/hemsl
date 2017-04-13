@@ -20,8 +20,8 @@ function Option (key, config) {
     config.params = params
   }
 
-    // this.name = key;
-    // this.config = config;
+  // this.name = key;
+  // this.config = config;
 
   if (optKey.length === 1 && alias && alias.length > 1) {
     config.alias = optKey
