@@ -28,7 +28,7 @@ $ npm install hemsl --save
 $ yarn add hemsl
 ```
 
-## 使用
+## Usages
 
 ### 创建实例
 
