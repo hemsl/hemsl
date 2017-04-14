@@ -8,30 +8,29 @@
 var Option = require('./Option')
 
 function Command (cmd, config) {
-  // TODO 代码优化
-  var cmdArr = cmd.split(/\s+/)
-  var cmdName = cmdArr[0]
+  if (typeof cmd !== 'string') {
+    throw Error('A command should has a name')
+  }
 
   if (!config || typeof config.fn !== 'function') {
     throw Error('A command should has a function property called `fn`')
   }
 
+  var cmdArr = cmd.split(/\s+/)
+  var cmdName = cmdArr[0]
   var func = config.fn
   var paramsLen = 0
+  var reg = /(<[^>]+>|\[[^\]]+\])/
   var paramItems = []
 
   if (cmdArr.length > 1) {
-    paramItems = cmdArr.slice(1)
+    // cmmand params
+    paramItems = cmd.match(reg) || []
+    // required params
+    paramsLen = paramItems.filter(function (param) {
+      return /<\w+>/.test(param)
+    }).length
 
-    for (var i = 0, len = paramItems.length; i < len; i++) {
-      var paramItem = paramItems[i]
-
-      if (/^<[^>]+>$/.test(paramItem)) {
-        paramsLen++
-      } else {
-        break
-      }
-    }
 
     func = function () {
       if (arguments.length < paramsLen) {
@@ -59,7 +58,6 @@ Command.prototype = {
 
   option: function (key, opt) {
     var option = new Option(key, opt)
-
     var name = option.name
     var alias = option.config.alias
 
@@ -72,36 +70,17 @@ Command.prototype = {
     return this
   },
 
-  help: function () {
-
-  },
-
-  execute: function () {
-
-  },
-
   _initOptions: function (config) {
     var confOpt = config.options || {}
-    var _aliasCache = this._aliasCache
-    var options = this.options
 
-    options.help = new Option('help', {
+    this.option('help', {
       alias: 'h',
       describe: 'show help info'
     })
 
     Object.keys(confOpt).sort().forEach(function (opt) {
-      var option = new Option(opt, config.options[opt])
-      var name = option.name
-      var alias = option.config.alias
-
-      options[name] = option
-
-      if (alias) {
-        _aliasCache[alias] = name
-        _aliasCache[name] = alias
-      }
-    })
+      this.option(opt, confOpt[opt])
+    }.bind(this))
   }
 }
 
