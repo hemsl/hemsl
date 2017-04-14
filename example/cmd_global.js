@@ -3,32 +3,32 @@
  * @author zdying
  */
 
-'use strict'
+'use strict';
 
-// test
+// Test
 
-var Args = require('../src')
+const Args = require('../src');
 
-var args = new Args()
+const args = new Args();
 
 args
 .bin('example')
-.version('1.12.150-rc')
+.version('1.12.150-rc');
 
 args.command('publish <ip> <dir>', {
   describe: '发布模块到npm/github/yarn',
   usage: 'xxx sync 192.168.1.100 ./',
-    // group: '',
-  fn: function (ip, dir) {
-    console.log('同步： ' + dir + ' ==> ' + ip)
+    // Group: '',
+  fn(ip, dir) {
+    console.log('同步： ' + dir + ' ==> ' + ip);
   },
   options: {
-    'user': {
+    user: {
       default: '',
       describe: 'Your user name (nodejs.org)',
       alias: 'u'
     },
-    'tag': {
+    tag: {
       default: '',
       describe: 'Publish branch tag',
       alias: 't'
@@ -44,7 +44,7 @@ args.command('publish <ip> <dir>', {
   default: 'all',
   describe: 'The target platform to publish(for cmd: `publish`)',
   alias: 'p'
-})
+});
 
 args
     .option('debug', {
@@ -77,12 +77,11 @@ args
       default: 'all',
       describe: 'The target platform to publish(global)',
       alias: 'p',
-      validate: function (val, result) {
+      validate(val, result) {
         if (val === 'all' || val.indexOf('beta-') === 0 || val.indexOf('dev-') === 0) {
-          return true
-        } else {
-          return false
+          return true;
         }
+        return false;
       }
     });
 
@@ -105,10 +104,10 @@ args
   '--tag beta-1',
   '--tag dev-1',
   '--tag latest'
-].forEach(function (argStr) {
-  console.log()
-  console.log('$'.bold.bold.magenta, 'example', argStr.bold.magenta, '\n')
-  var res = args.parse(argStr.split(/\s+/))
-  console.log(res)
-  console.log('\n')
-})
+].forEach(argStr => {
+  console.log();
+  console.log('$'.bold.bold.magenta, 'example', argStr.bold.magenta, '\n');
+  const res = args.parse(argStr.split(/\s+/));
+  console.log(res);
+  console.log('\n');
+});

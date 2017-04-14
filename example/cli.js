@@ -3,17 +3,17 @@
  * @author zdying
  */
 
-'use strict'
+'use strict';
 
-var path = require('path')
+const path = require('path');
+const Args = require('../src');
 
-var Args = require('../src')
-var args = new Args()
+const args = new Args();
 
-'start stop reload list'.split(' ').forEach(function (cmd) {
-  var cmdFilePath = require(path.join(__dirname, 'commands', cmd))
+'start stop reload list'.split(' ').forEach(cmd => {
+  const cmdFilePath = require(path.join(__dirname, 'commands', cmd));
 
-  args.command(cmdFilePath)
-})
+  args.command(cmdFilePath);
+});
 
-args.version('1.1.2').parse(true)
+args.version('1.1.2').parse(true);

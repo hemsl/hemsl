@@ -9,7 +9,7 @@
   "scripts": {
     "mocha": "mocha test/*.js",
     "cover": "istanbul cover _mocha test/*.js",
-    "test": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
+    "test": "xo \"src/*.js\" \"example/**/*.js\" && npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -38,11 +38,18 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "mocha-lcov-reporter": "^1.3.0",
-    "standard": "^10.0.1"
+    "xo": "^0.18.1"
   },
   "config": {
     "ghooks": {
-      "pre-commit": "standard \"src/*.js\" \"example/**/*.js\""
+      "pre-commit": "xo \"src/*.js\" \"example/**/*.js\""
     }
+  },
+  "xo": {
+    "space": true,
+    "globals": [
+      "it", "describe"
+    ],
+    "no-restricted-modules": []
   }
 }

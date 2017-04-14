@@ -3,19 +3,19 @@
  * @author zdying
  */
 
-'use strict'
+'use strict';
 
-// test
+// Test
 
-var Args = require('../src')
+const Args = require('../src');
 
-var args = new Args()
+const args = new Args();
 
 args
 .bin('example')
-.version('1.12.150-rc')
+.version('1.12.150-rc');
 
-// args.command('publish <ip> <dir>', {
+// Args.command('publish <ip> <dir>', {
 //     describe: '发布模块到npm/github/yarn',
 //     usage: 'xxx sync 192.168.1.100 ./',
 //     // group: '',
@@ -49,10 +49,10 @@ args
 args.command('start <port> [ip]', {
   describe: '启动本地测试服务',
   usage: 'example start <port> [ip] [options]',
-  fn: function (port, ip) {
-    console.log('Server started at', ('http://' + ip + ':' + port).underline.magenta.bold)
+  fn(port, ip) {
+    console.log('Server started at', ('http://' + ip + ':' + port).underline.magenta.bold);
 
-        // var http = require('http');
+        // Var http = require('http');
 
         // var server = http.createServer(function(req, res){
         //     console.log(req.method.bold.gray, req.url);
@@ -62,12 +62,12 @@ args.command('start <port> [ip]', {
         // server.listen(port, ip);
   },
   options: {
-    'https': {
+    https: {
       default: true,
       describe: 'start https server',
       alias: 's'
     },
-    'p': {
+    p: {
       default: '',
       describe: 'output path',
       alias: 'port',
@@ -88,29 +88,29 @@ args.command('start <port> [ip]', {
   alias: 'm',
   default: 'HH:mm:ss',
   describe: 'time format string'
-})
+});
 
 args.command('sync <ip> <dir>', {
   describe: '同步代码到服务器',
   usage: 'xxx sync 192.168.1.100 ./',
-    // group: '',
-  fn: function (ip, dir) {
-    console.log('同步： ' + dir + ' ==> ' + ip)
+    // Group: '',
+  fn(ip, dir) {
+    console.log('同步： ' + dir + ' ==> ' + ip);
   },
   options: {
-    'https': {
+    https: {
       default: true,
       describe: 'start https server',
       alias: 's'
     },
-    'P': {
+    P: {
       default: '',
       describe: 'output path',
       alias: 'output-path',
       usage: 'output-path <path>'
     }
   }
-})
+});
 
 args
     .option('debug', {
@@ -150,10 +150,10 @@ args
   'start --help',
   '-m h:m:s --hot-reload --port 9999 start 9999 127.0.0.1 --grep info --log-time --time-format h:m:s --date-format',
   '--help'
-].forEach(function (argStr) {
-  console.log()
-  console.log('$'.bold.bold.magenta, 'example', argStr, '\n')
-  var res = args.parse(argStr.split(/\s+/))
-  console.log(res)
-  console.log('\n')
-})
+].forEach(argStr => {
+  console.log();
+  console.log('$'.bold.bold.magenta, 'example', argStr, '\n');
+  const res = args.parse(argStr.split(/\s+/));
+  console.log(res);
+  console.log('\n');
+});
