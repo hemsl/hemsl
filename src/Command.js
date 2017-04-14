@@ -7,6 +7,15 @@
 
 var Option = require('./Option')
 
+/**
+ * 创建一个命令
+ * @param {String} cmd    命令名称
+ * @param {Object} config 配置参数
+ * @param {String} config.usage     命令使用帮助
+ * @param {String} config.describe  命令描述信息
+ * @param {Function} config.fn      执行命令时调用的函数
+ * @param {Object} config.options   命令支持的选项（option）
+ */
 function Command (cmd, config) {
   if (typeof cmd !== 'string') {
     throw Error('A command should has a name')
@@ -48,7 +57,7 @@ function Command (cmd, config) {
   this.options = {}
   this._aliasCache = {}
 
-  this._initOptions(config)
+  this._initOptions(config.options)
 
   return this
 }
@@ -56,6 +65,13 @@ function Command (cmd, config) {
 Command.prototype = {
   constructor: Command,
 
+  /**
+   * 为命令创建一个选项
+   * @param {String} key 选项名称
+   * @param {Object} opt 选项配置
+   * @return {Command}
+   * @public
+   */
   option: function (key, opt) {
     var option = new Option(key, opt)
     var name = option.name
@@ -70,8 +86,14 @@ Command.prototype = {
     return this
   },
 
-  _initOptions: function (config) {
-    var confOpt = config.options || {}
+  /**
+   * 初始化选项
+   * @param {Object} config
+   * @return {Command}
+   * @private
+   */
+  _initOptions: function (options) {
+    var confOpt = options || {}
 
     this.option('help', {
       alias: 'h',
@@ -81,6 +103,8 @@ Command.prototype = {
     Object.keys(confOpt).sort().forEach(function (opt) {
       this.option(opt, confOpt[opt])
     }.bind(this))
+
+    return this
   }
 }
 
