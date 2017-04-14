@@ -10,7 +10,7 @@ hemsl是一个轻量级的命令行参数解析器，也支持命令执行。hem
 [![npm](https://img.shields.io/npm/l/hemsl.svg)](https://raw.githubusercontent.com/hemsl/hemsl/master/LICENSE)
 
 
-<img src='logo.jpeg' width='300px'/>
+<img src='https://github.com/hemsl/hemsl/raw/master/logo.jpeg' width='300px'/>
 
 > 白花小松，学名：Villadia batesii （Hemsl.）Baehni & Macbride，景天科、塔莲属多年生多肉植物，花期一般4～5月份。白花小松的叶形叶色较美，有一定的观赏价值；盆栽可放置于电视、电脑旁，可吸收辐射，亦可栽植于室内以吸收甲醛等物质，净化空气。
 
