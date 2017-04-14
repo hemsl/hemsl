@@ -30,7 +30,7 @@ $ yarn add hemsl
 
 ## Usages
 
-### 创建实例
+### Create an instance
 
 ```js
 var Args = require('hemsl');
