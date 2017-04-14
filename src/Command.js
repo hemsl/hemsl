@@ -5,7 +5,7 @@
 
 'use strict'
 
-var Option = require('./Option')
+var Option = require('./option')
 
 /**
  * 创建一个命令

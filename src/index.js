@@ -8,8 +8,8 @@
 require('colors')
 var utils = require('./utils')
 
-var Command = require('./Command')
-var Option = require('./Option')
+var Command = require('./command')
+var Option = require('./option')
 
 var DEFAULT_VALUE = '__default_value__'
 
