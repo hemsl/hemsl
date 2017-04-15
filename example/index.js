@@ -3,17 +3,17 @@
  * @author zdying
  */
 
-'use strict'
+'use strict';
 
 // test
 
-var Args = require('../src')
+var Args = require('../src');
 
-var args = new Args()
+var args = new Args();
 
 args
 .bin('example')
-.version('1.12.150-rc')
+.version('1.12.150-rc');
 
 // args.command('publish <ip> <dir>', {
 //     describe: '发布模块到npm/github/yarn',
@@ -50,7 +50,7 @@ args.command('start <port> [ip]', {
   describe: '启动本地测试服务',
   usage: 'example start <port> [ip] [options]',
   fn: function (port, ip) {
-    console.log('Server started at', ('http://' + ip + ':' + port).underline.magenta.bold)
+    console.log('Server started at', ('http://' + ip + ':' + port).underline.magenta.bold);
 
         // var http = require('http');
 
@@ -88,14 +88,14 @@ args.command('start <port> [ip]', {
   alias: 'm',
   default: 'HH:mm:ss',
   describe: 'time format string'
-})
+});
 
 args.command('sync <ip> <dir>', {
   describe: '同步代码到服务器',
   usage: 'xxx sync 192.168.1.100 ./',
     // group: '',
   fn: function (ip, dir) {
-    console.log('同步： ' + dir + ' ==> ' + ip)
+    console.log('同步： ' + dir + ' ==> ' + ip);
   },
   options: {
     'https': {
@@ -110,7 +110,7 @@ args.command('sync <ip> <dir>', {
       usage: 'output-path <path>'
     }
   }
-})
+});
 
 args
     .option('debug', {
@@ -151,9 +151,9 @@ args
   '-m h:m:s --hot-reload --port 9999 start 9999 127.0.0.1 --grep info --log-time --time-format h:m:s --date-format',
   '--help'
 ].forEach(function (argStr) {
-  console.log()
-  console.log('$'.bold.bold.magenta, 'example', argStr, '\n')
-  var res = args.parse(argStr.split(/\s+/))
-  console.log(res)
-  console.log('\n')
-})
+  console.log();
+  console.log('$'.bold.bold.magenta, 'example', argStr, '\n');
+  var res = args.parse(argStr.split(/\s+/));
+  console.log(res);
+  console.log('\n');
+});

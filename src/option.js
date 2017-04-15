@@ -3,42 +3,42 @@
  * @author zdying
  */
 
-'use strict'
+'use strict';
 
-var utils = require('./utils')
+var utils = require('./utils');
 
 function Option (key, config) {
-  config = config || {}
+  config = config || {};
 
-  var keyTokens = key.split(/\s+/)
-  var optKey = keyTokens[0]
-  var params = keyTokens.slice(1)
-  var alias = config.alias
-  var validate = config.validate
+  var keyTokens = key.split(/\s+/);
+  var optKey = keyTokens[0];
+  var params = keyTokens.slice(1);
+  var alias = config.alias;
+  var validate = config.validate;
 
   if (params.length > 0) {
-    config.params = params
+    config.params = params;
   }
 
   // this.name = key;
   // this.config = config;
 
   if (optKey.length === 1 && alias && alias.length > 1) {
-    config.alias = optKey
-    optKey = alias
+    config.alias = optKey;
+    optKey = alias;
   }
 
   if (validate && typeof validate !== 'function') {
     if (validate instanceof RegExp) {
       config.validate = function (val, result) {
-        return validate.test(val)
-      }
+        return validate.test(val);
+      };
     }
   }
 
-  this.name = utils.toCamelCase(optKey)
-  this.originName = optKey
-  this.config = config
+  this.name = utils.toCamelCase(optKey);
+  this.originName = optKey;
+  this.config = config;
 }
 
 Option.prototype = {
@@ -47,6 +47,6 @@ Option.prototype = {
   help: function () {
 
   }
-}
+};
 
-module.exports = Option
+module.exports = Option;

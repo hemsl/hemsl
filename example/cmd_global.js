@@ -3,24 +3,24 @@
  * @author zdying
  */
 
-'use strict'
+'use strict';
 
 // test
 
-var Args = require('../src')
+var Args = require('../src');
 
-var args = new Args()
+var args = new Args();
 
 args
 .bin('example')
-.version('1.12.150-rc')
+.version('1.12.150-rc');
 
 args.command('publish <ip> <dir>', {
   describe: '发布模块到npm/github/yarn',
   usage: 'xxx sync 192.168.1.100 ./',
     // group: '',
   fn: function (ip, dir) {
-    console.log('同步： ' + dir + ' ==> ' + ip)
+    console.log('同步： ' + dir + ' ==> ' + ip);
   },
   options: {
     'user': {
@@ -44,7 +44,7 @@ args.command('publish <ip> <dir>', {
   default: 'all',
   describe: 'The target platform to publish(for cmd: `publish`)',
   alias: 'p'
-})
+});
 
 args
     .option('debug', {
@@ -79,9 +79,9 @@ args
       alias: 'p',
       validate: function (val, result) {
         if (val === 'all' || val.indexOf('beta-') === 0 || val.indexOf('dev-') === 0) {
-          return true
+          return true;
         } else {
-          return false
+          return false;
         }
       }
     });
@@ -106,9 +106,9 @@ args
   '--tag dev-1',
   '--tag latest'
 ].forEach(function (argStr) {
-  console.log()
-  console.log('$'.bold.bold.magenta, 'example', argStr.bold.magenta, '\n')
-  var res = args.parse(argStr.split(/\s+/))
-  console.log(res)
-  console.log('\n')
-})
+  console.log();
+  console.log('$'.bold.bold.magenta, 'example', argStr.bold.magenta, '\n');
+  var res = args.parse(argStr.split(/\s+/));
+  console.log(res);
+  console.log('\n');
+});

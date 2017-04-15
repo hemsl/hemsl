@@ -3,9 +3,9 @@
  * @author zdying
  */
 
-'use strict'
+'use strict';
 
-var Option = require('./option')
+var Option = require('./option');
 
 /**
  * 创建一个命令
@@ -18,47 +18,47 @@ var Option = require('./option')
  */
 function Command (cmd, config) {
   if (typeof cmd !== 'string') {
-    throw Error('A command should has a name')
+    throw Error('A command should has a name');
   }
 
   if (!config || typeof config.fn !== 'function') {
-    throw Error('A command should has a function property called `fn`')
+    throw Error('A command should has a function property called `fn`');
   }
 
-  var cmdArr = cmd.split(/\s+/)
-  var cmdName = cmdArr[0]
-  var func = config.fn
-  var paramsLen = 0
-  var reg = /(<[^>]+>|\[[^\]]+\])/
-  var paramItems = []
+  var cmdArr = cmd.split(/\s+/);
+  var cmdName = cmdArr[0];
+  var func = config.fn;
+  var paramsLen = 0;
+  var reg = /(<[^>]+>|\[[^\]]+\])/;
+  var paramItems = [];
 
   if (cmdArr.length > 1) {
     // cmmand params
-    paramItems = cmd.match(reg) || []
+    paramItems = cmd.match(reg) || [];
     // required params
     paramsLen = paramItems.filter(function (param) {
-      return /<\w+>/.test(param)
-    }).length
+      return /<\w+>/.test(param);
+    }).length;
 
     func = function () {
       if (arguments.length < paramsLen) {
-        console.log('error: 命令`' + cmd + '` 参数个数不对, 期待`' + paramsLen + '`个，实际接收到`' + arguments.length + '`个')
+        console.log('error: 命令`' + cmd + '` 参数个数不对, 期待`' + paramsLen + '`个，实际接收到`' + arguments.length + '`个');
       } else {
-        config.fn.apply(this, arguments)
+        config.fn.apply(this, arguments);
       }
-    }
+    };
   }
 
-  this.name = cmdName
-  this.describe = config.describe || ''
-  this.usage = config.usage || ''
-  this.fn = func
-  this.options = {}
-  this._aliasCache = {}
+  this.name = cmdName;
+  this.describe = config.describe || '';
+  this.usage = config.usage || '';
+  this.fn = func;
+  this.options = {};
+  this._aliasCache = {};
 
-  this._initOptions(config.options)
+  this._initOptions(config.options);
 
-  return this
+  return this;
 }
 
 Command.prototype = {
@@ -72,17 +72,17 @@ Command.prototype = {
    * @public
    */
   option: function (key, opt) {
-    var option = new Option(key, opt)
-    var name = option.name
-    var alias = option.config.alias
+    var option = new Option(key, opt);
+    var name = option.name;
+    var alias = option.config.alias;
 
-    this.options[name] = option
+    this.options[name] = option;
 
     if (alias) {
-      this._aliasCache[alias] = name
-      this._aliasCache[name] = alias
+      this._aliasCache[alias] = name;
+      this._aliasCache[name] = alias;
     }
-    return this
+    return this;
   },
 
   /**
@@ -92,19 +92,19 @@ Command.prototype = {
    * @private
    */
   _initOptions: function (options) {
-    var confOpt = options || {}
+    var confOpt = options || {};
 
     this.option('help', {
       alias: 'h',
       describe: 'show help info'
-    })
+    });
 
     Object.keys(confOpt).sort().forEach(function (opt) {
-      this.option(opt, confOpt[opt])
-    }.bind(this))
+      this.option(opt, confOpt[opt]);
+    }.bind(this));
 
-    return this
+    return this;
   }
-}
+};
 
-module.exports = Command
+module.exports = Command;
