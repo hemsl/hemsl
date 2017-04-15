@@ -9,7 +9,8 @@
   "scripts": {
     "mocha": "mocha test/*.js",
     "cover": "istanbul cover _mocha test/*.js",
-    "test": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
+    "test": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
+    "standard": "standard \"src/*.js\" \"example/**/*.js\""
   },
   "repository": {
     "type": "git",

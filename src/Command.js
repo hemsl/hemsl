@@ -40,10 +40,9 @@ function Command (cmd, config) {
       return /<\w+>/.test(param)
     }).length
 
-
     func = function () {
       if (arguments.length < paramsLen) {
-        console.log('error: 命令`' + cmd + '` ' + '参数个数不对, 期待`' + paramsLen + '`个，实际接收到`' + arguments.length + '`个')
+        console.log('error: 命令`' + cmd + '` 参数个数不对, 期待`' + paramsLen + '`个，实际接收到`' + arguments.length + '`个')
       } else {
         config.fn.apply(this, arguments)
       }
