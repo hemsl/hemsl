@@ -103,7 +103,7 @@ Args.prototype = {
    * 添加命令
    * @param {String} cmd    命令名称
    * @param {Object} config 命令配置
-   * @return {Args}
+   * @return {Command}
    * @public
    */
   command: function (cmd, config) {

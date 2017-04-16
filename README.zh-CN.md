@@ -169,7 +169,7 @@ args.command({
     * [.parse([argv], [execute])](#Args+parse) ⇒ <code>Object</code>
     * [.execute()](#Args+execute) ⇒ <code>[Args](#Args)</code>
     * [.option(key, config)](#Args+option) ⇒ <code>[Args](#Args)</code>
-    * [.command(cmd, config)](#Args+command) ⇒ <code>[Args](#Args)</code>
+    * [.command(cmd, config)](#Args+command) ⇒ <code>[Command](#Command)</code>
     * [.help([cmdName])](#Args+help) ⇒ <code>[Args](#Args)</code>
     * [.version(ver)](#Args+version) ⇒ <code>[Args](#Args)</code>
     * [.bin(binName)](#Args+bin) ⇒ <code>[Args](#Args)</code>
@@ -220,7 +220,7 @@ args.command({
 
 <a name="Args+command"></a>
 
-### args.command(cmd, config) ⇒ <code>[Args](#Args)</code>
+### args.command(cmd, config) ⇒ <code>[Command](#Command)</code>
 添加命令
 
 **Kind**: instance method of <code>[Args](#Args)</code>  
