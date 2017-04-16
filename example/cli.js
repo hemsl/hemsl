@@ -16,4 +16,4 @@ var args = new Args();
   args.command(cmdFilePath);
 });
 
-args.version('1.1.2').parse(true);
+args.version('1.1.2').bin('example').parse(true);

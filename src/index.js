@@ -161,6 +161,7 @@ Args.prototype = {
 
     console.log('\n  ' + 'Options:\n'.bold.underline);
     console.log(this._getOptionString(this._options));
+    console.log()
 
     return this;
   },
