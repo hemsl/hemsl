@@ -1,5 +1,5 @@
 /**
- * @file 解析参数，执行响应的命令
+ * @file 解析参数，执行相应的命令
  * @author zdying
  */
 
@@ -13,6 +13,11 @@ var Option = require('./option');
 
 var DEFAULT_VALUE = '__default_value__';
 
+/**
+ * 参数解析
+ * @param {Object} config 配置对象
+ * @constructor
+ */
 function Args (config) {
   this._options = {};
   this._cmds = {};
