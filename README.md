@@ -187,7 +187,7 @@ args.command({
 <a name="Args+parse"></a>
 
 ### args.parse([argv], [execute]) ⇒ <code>Object</code>
-解析参数，返回解析后的参数对象。如果参数execute为true，自动执行argv中的命令
+解析参数，返回解析后的参数对象。如果参数`execute`为`true`，自动执行argv中的命令
 
 **Kind**: instance method of <code>[Args](#Args)</code>  
 **Returns**: <code>Object</code> - 解析后的对象  
@@ -303,3 +303,4 @@ args.command({
 | --- | --- | --- |
 | key | <code>String</code> | 选项名称 |
 | opt | <code>Object</code> | 选项配置 |
+

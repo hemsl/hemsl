@@ -42,7 +42,7 @@ function Args (config) {
 Args.prototype = {
   constructor: Args,
   /**
-   * 解析参数，返回解析后的参数对象。如果参数execute为true，自动执行argv中的命令
+   * 解析参数，返回解析后的参数对象。如果参数`execute`为`true`，自动执行argv中的命令
    * @param {Array}   [argv=process.argv.slice(2)] 要解析的参数数组
    * @param {Boolean} [execute=false] 是否自动执行参数中的命令
    * @return {Object} 解析后的对象
