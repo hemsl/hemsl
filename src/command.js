@@ -8,13 +8,14 @@
 var Option = require('./option');
 
 /**
- * 创建一个命令
+ * 创建命令
  * @param {String} cmd    命令名称
  * @param {Object} config 配置参数
  * @param {String} config.usage     命令使用帮助
  * @param {String} config.describe  命令描述信息
  * @param {Function} config.fn      执行命令时调用的函数
  * @param {Object} config.options   命令支持的选项（option）
+ * @constructor
  */
 function Command (cmd, config) {
   if (typeof cmd !== 'string') {

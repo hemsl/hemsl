@@ -24,7 +24,7 @@ function Args (config) {
   this._aliasCache = {};
   this.result = {};
   this.config = config || {};
-  this._version = '1.0.0';
+  this._version = '';
 
   this.option('version', {
     default: true,
@@ -42,7 +42,7 @@ function Args (config) {
 Args.prototype = {
   constructor: Args,
   /**
-   * 解析参数
+   * 解析参数，返回解析后的参数对象。如果参数execute为true，自动执行argv中的命令
    * @param {Array}   [argv=process.argv.slice(2)] 要解析的参数数组
    * @param {Boolean} [execute=false] 是否自动执行参数中的命令
    * @return {Object} 解析后的对象
@@ -73,7 +73,7 @@ Args.prototype = {
   },
 
   /**
-   * 添加选项
+   * 添加全局选项
    * @param {String} key    选项名称
    * @param {Object} config 选项配置
    * @return {Args}
@@ -166,7 +166,7 @@ Args.prototype = {
   },
 
   /**
-   * 设置版本号
+   * 设置App版本号，默认值为1.0.0。这个版本号会在全局-v/--version的时候显示
    * @param {String} ver 版本号
    * @return {Args}
    * @public
@@ -177,7 +177,7 @@ Args.prototype = {
   },
 
   /**
-   * 设置bin名称
+   * 设置App的命令名称
    * @param {String} binName 名称
    * @return {Args}
    * @public
@@ -358,7 +358,7 @@ Args.prototype = {
       }
     } else {
       if (result.version) {
-        console.log(this._version);
+        console.log(this._version || '1.0.0');
       } else if (result.help) {
         this.help();
       }

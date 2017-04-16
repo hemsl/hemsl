@@ -141,39 +141,23 @@ args.command({
 })
 ```
 
-## API
+## 其他示例
 
-### Args
+参考：
 
-#### .version(ver='1.0.0') => Args
-
-设置App版本号，默认值为`1.0.0`。这个版本号会在全局`-v`/`--version`的时候显示。
-
-#### .bin(binName) => Args
-
-设置App的命令名称。
-
-#### .option(config) => Args
-
-添加全局选项。
-
-#### .command(config) => Command
-
-添加命令。
-
-#### .parse([argv,] execute=false) => Object
-
-解析参数，返回解析后的参数对象。如果参数`execute`为`true`，自动执行`argv`中的命令。
-
-#### .execute(config) => Args
-
-执行`argv`中指定的命令。
-
-### Option
-
-### Command
+-   [example 1](./example/index.js)
+-   [example 2](./example/cmd_global.js)
 
 ## API
+
+## Classes
+
+<dl>
+<dt><a href="#Args">Args</a></dt>
+<dd></dd>
+<dt><a href="#Command">Command</a></dt>
+<dd></dd>
+</dl>
 
 <a name="Args"></a>
 
@@ -182,7 +166,7 @@ args.command({
 
 * [Args](#Args)
     * [new Args(config)](#new_Args_new)
-    * [.parse([argv], [execute])](#Args+parse) ⇒ <code>object</code>
+    * [.parse([argv], [execute])](#Args+parse) ⇒ <code>Object</code>
     * [.execute()](#Args+execute) ⇒ <code>[Args](#Args)</code>
     * [.option(key, config)](#Args+option) ⇒ <code>[Args](#Args)</code>
     * [.command(cmd, config)](#Args+command) ⇒ <code>[Args](#Args)</code>
@@ -202,17 +186,17 @@ args.command({
 
 <a name="Args+parse"></a>
 
-### args.parse([argv], [execute]) ⇒ <code>object</code>
-解析参数
+### args.parse([argv], [execute]) ⇒ <code>Object</code>
+解析参数，返回解析后的参数对象。如果参数execute为true，自动执行argv中的命令
 
 **Kind**: instance method of <code>[Args](#Args)</code>  
-**Returns**: <code>object</code> - 解析后的对象  
+**Returns**: <code>Object</code> - 解析后的对象  
 **Access**: public  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [argv] | <code>array</code> | <code>process.argv.slice(2)</code> | 要解析的参数数组 |
-| [execute] | <code>boolean</code> | <code>false</code> | 是否自动执行参数中的命令 |
+| [argv] | <code>Array</code> | <code>process.argv.slice(2)</code> | 要解析的参数数组 |
+| [execute] | <code>Boolean</code> | <code>false</code> | 是否自动执行参数中的命令 |
 
 <a name="Args+execute"></a>
 
@@ -224,7 +208,7 @@ args.command({
 <a name="Args+option"></a>
 
 ### args.option(key, config) ⇒ <code>[Args](#Args)</code>
-添加选项
+添加全局选项
 
 **Kind**: instance method of <code>[Args](#Args)</code>  
 **Access**: public  
@@ -262,7 +246,7 @@ args.command({
 <a name="Args+version"></a>
 
 ### args.version(ver) ⇒ <code>[Args](#Args)</code>
-设置版本号
+设置App版本号，默认值为1.0.0。这个版本号会在全局-v/--version的时候显示
 
 **Kind**: instance method of <code>[Args](#Args)</code>  
 **Access**: public  
@@ -274,7 +258,7 @@ args.command({
 <a name="Args+bin"></a>
 
 ### args.bin(binName) ⇒ <code>[Args](#Args)</code>
-设置bin名称
+设置App的命令名称
 
 **Kind**: instance method of <code>[Args](#Args)</code>  
 **Access**: public  
@@ -283,9 +267,39 @@ args.command({
 | --- | --- | --- |
 | binName | <code>String</code> | 名称 |
 
-## 其他示例
+<a name="Command"></a>
 
-参考：
+## Command
+**Kind**: global class  
 
--   [example 1](./example/index.js)
--   [example 2](./example/cmd_global.js)
+* [Command](#Command)
+    * [new Command(cmd, config)](#new_Command_new)
+    * [.option(key, opt)](#Command+option) ⇒ <code>[Command](#Command)</code>
+
+<a name="new_Command_new"></a>
+
+### new Command(cmd, config)
+创建命令
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cmd | <code>String</code> | 命令名称 |
+| config | <code>Object</code> | 配置参数 |
+| config.usage | <code>String</code> | 命令使用帮助 |
+| config.describe | <code>String</code> | 命令描述信息 |
+| config.fn | <code>function</code> | 执行命令时调用的函数 |
+| config.options | <code>Object</code> | 命令支持的选项（option） |
+
+<a name="Command+option"></a>
+
+### command.option(key, opt) ⇒ <code>[Command](#Command)</code>
+为命令创建一个选项
+
+**Kind**: instance method of <code>[Command](#Command)</code>  
+**Access**: public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| key | <code>String</code> | 选项名称 |
+| opt | <code>Object</code> | 选项配置 |
