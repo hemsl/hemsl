@@ -41,12 +41,12 @@ function Option (key, config) {
   this.config = config;
 }
 
-Option.prototype = {
-  constructor: Option,
+// Option.prototype = {
+//   constructor: Option,
 
-  help: function () {
+//   help: function () {
 
-  }
-};
+//   }
+// };
 
 module.exports = Option;
