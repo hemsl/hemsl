@@ -325,6 +325,7 @@ Args.prototype = {
           if (optDefine.config.validate) {
             if (optDefine.config.validate(optValue, result) === false) {
               error = ['Error: 选项', optName, (params || []).join(' '), '的值不正确'].join(' ');
+              // break;
             }
           }
         }

@@ -18,12 +18,12 @@ var Option = require('./option');
  * @constructor
  */
 function Command (cmd, config) {
-  if (typeof cmd !== 'string') {
-    throw Error('A command should has a name');
+  if (typeof cmd !== 'string' || cmd === '') {
+    throw Error('A command should have a name');
   }
 
   if (!config || typeof config.fn !== 'function') {
-    throw Error('A command should has a function property called `fn`');
+    throw Error('A command should have a function property called `fn`');
   }
 
   var cmdArr = cmd.split(/\s+/);
