@@ -33,6 +33,9 @@ function Option (key, config) {
       config.validate = function (val, result) {
         return validate.test(val);
       };
+    }else{
+      // 暂时不支持其它的校验类型
+      config.validate = null;
     }
   }
 

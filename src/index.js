@@ -25,6 +25,7 @@ function Args (config) {
   this.result = {};
   this.config = config || {};
   this._version = '';
+  this.binName = '';
 
   this.option('version', {
     default: true,
@@ -128,7 +129,7 @@ Args.prototype = {
    */
   help: function (cmdName) {
     var cmds = this._cmds;
-    var usage = (this.binName || '').bold.green + ' [command]'.blue + ' [option]\n'.blue;
+    var usage = this.binName.bold.green + ' [command]'.blue + ' [option]\n'.blue;
     var helpStr;
 
     if (cmdName) {
@@ -184,7 +185,7 @@ Args.prototype = {
    * @public
    */
   bin: function (binName) {
-    this.binName = binName;
+    this.binName = binName || '';
     return this;
   },
 

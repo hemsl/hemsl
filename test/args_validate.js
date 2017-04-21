@@ -46,6 +46,9 @@ describe('#parse param validate (global option)', function () {
 
       return true;
     }
+  }).option('ignored-validate', {
+    describe: 'ignored-validate',
+    validate: true
   });
 
   it('#1. show error info when param is invalid (use `RegExp`)', function () {
@@ -96,5 +99,31 @@ describe('#parse param validate (command option)', function () {
     args.parse(['start', '--port', '81'], true) 
 
     assert.notEqual(hook.captured().indexOf('参数个数不对'), -1);
+  });
+});
+
+describe('#command name validate', function () {
+  var args = new Args();
+
+  it('should not throw error when name is: `start`', function () {
+    assert.doesNotThrow(function(){
+      args.command('start', {
+        describe: 'start http server',
+        fn: function (port, ip) {
+          //...
+        }
+      });
+    });
+  });
+
+  it('should throw error when name is: `start port`', function () {
+    assert.throws(function(){
+      args.command('start port', {
+        describe: 'start http server',
+        fn: function (port, ip) {
+          //...
+        }
+      });
+    });
   });
 });

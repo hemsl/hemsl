@@ -35,19 +35,24 @@ function Command (cmd, config) {
 
   if (cmdArr.length > 1) {
     // cmmand params
-    paramItems = cmd.match(reg) || [];
-    // required params
-    paramsLen = paramItems.filter(function (param) {
-      return /<\w+>/.test(param);
-    }).length;
+    paramItems = cmd.match(reg);
 
-    func = function () {
-      if (arguments.length < paramsLen) {
-        console.log('error: 命令`' + cmd + '` 参数个数不对, 期待`' + paramsLen + '`个，实际接收到`' + arguments.length + '`个');
-      } else {
-        config.fn.apply(this, arguments);
-      }
-    };
+    if(paramItems){
+      // required params
+      paramsLen = paramItems.filter(function (param) {
+        return /<\w+>/.test(param);
+      }).length;
+
+      func = function () {
+        if (arguments.length < paramsLen) {
+          console.log('error: 命令`' + cmd + '` 参数个数不对, 期待`' + paramsLen + '`个，实际接收到`' + arguments.length + '`个');
+        } else {
+          config.fn.apply(this, arguments);
+        }
+      };
+    }else{
+      throw Error('error: 命令`' + cmd + '`定义格式错误');
+    }
   }
 
   this.name = cmdName;
