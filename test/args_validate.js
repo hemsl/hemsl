@@ -40,7 +40,6 @@ describe('#parse param validate (global option)', function () {
   }).option('age', {
     describe: 'age',
     validate: function (age, result) {
-      console.log('age ==>', age, 'sex ===>', result.sex);
       if(result.sex === 'F'){
         return Number(age) <= 16;
       }
@@ -71,5 +70,31 @@ describe('#parse param validate (global option)', function () {
     args.parse(['start', '--port', '--https'], false) 
 
     assert.ok(hook.captured().indexOf('参数缺失') !== -1);
+  });
+});
+
+
+describe('#parse param validate (command option)', function () {
+  var args = new Args();
+
+  var hook;
+  beforeEach(function () {
+    hook = captureStream(process.stdout);
+  });
+  afterEach(function () {
+    hook.unhook();
+  });
+
+  args.command('start <port> [ip]', {
+    describe: 'start http server',
+    fn: function (port, ip) {
+      //...
+    }
+  });
+
+  it('show error info when param length is not right', function () {
+    args.parse(['start', '--port', '81'], true) 
+
+    assert.notEqual(hook.captured().indexOf('参数个数不对'), -1);
   });
 });

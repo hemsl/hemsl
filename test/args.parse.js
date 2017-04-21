@@ -92,7 +92,8 @@ describe('helpers/args.js (Args Parse):\n', function () {
       option: 'some',
       alias: 'O',
       describe: 'some thing'
-    });
+    })
+    .option('emp-option');
 
   var argv =
           'start ' +
