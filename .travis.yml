@@ -8,8 +8,8 @@ node_js:
 install:
   - npm install
 
-after_success:
-- npm run coveralls
+after_success: 
+- npm run coverage
 
 cache:
   directories:
