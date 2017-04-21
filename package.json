@@ -9,7 +9,7 @@
   "scripts": {
     "semistandard": "semistandard \"src/*.js\" \"example/**/*.js\"",
     "test": "nyc mocha test/*.js",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "repository": {
     "type": "git",
@@ -33,11 +33,11 @@
     "colors": "^1.1.2"
   },
   "devDependencies": {
-    "coveralls": "^2.13.0",
+    "codecov": "^2.1.0",
     "ghooks": "^2.0.0",
     "mocha": "^3.2.0",
-    "semistandard": "^10.0.0",
-    "nyc": "^10.2.0"
+    "nyc": "^10.2.0",
+    "semistandard": "^10.0.0"
   },
   "config": {
     "ghooks": {
