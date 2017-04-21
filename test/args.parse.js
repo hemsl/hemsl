@@ -215,24 +215,24 @@ describe('helpers/args.js (Args Parse):\n', function () {
   });
 
   describe('api params check', function () {
-      var args = new Args();
+    var args = new Args();
 
-      it('should throw error when command name is not a string or is an empty string', function () {
-        assert.throws(function () {
-          args.command('', {
-            describe: 'error command',
-            fn: function(){}
-          })
-        }, 'should throw error when command name is not a string or is an empty string')
-      });
+    it('should throw error when command name is not a string or is an empty string', function () {
+      assert.throws(function () {
+        args.command('', {
+          describe: 'error command',
+          fn: function () {}
+        });
+      }, 'should throw error when command name is not a string or is an empty string');
+    });
 
-      it('should throw error when command handle is empty', function () {
-        assert.throws(function () {
-          args.command('test-no-fn-cmd', {
-            describe: 'error command'
-          })
-        }, 'should throw error when command handle is empty')
-      })
+    it('should throw error when command handle is empty', function () {
+      assert.throws(function () {
+        args.command('test-no-fn-cmd', {
+          describe: 'error command'
+        });
+      }, 'should throw error when command handle is empty');
+    });
   });
 
   describe('#exec callback', function () {

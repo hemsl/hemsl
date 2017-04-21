@@ -37,7 +37,7 @@ function Command (cmd, config) {
     // cmmand params
     paramItems = cmd.match(reg);
 
-    if(paramItems){
+    if (paramItems) {
       // required params
       paramsLen = paramItems.filter(function (param) {
         return /<\w+>/.test(param);
@@ -50,7 +50,7 @@ function Command (cmd, config) {
           config.fn.apply(this, arguments);
         }
       };
-    }else{
+    } else {
       throw Error('error: 命令`' + cmd + '`定义格式错误');
     }
   }

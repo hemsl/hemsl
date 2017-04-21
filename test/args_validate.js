@@ -40,7 +40,7 @@ describe('#parse param validate (global option)', function () {
   }).option('age', {
     describe: 'age',
     validate: function (age, result) {
-      if(result.sex === 'F'){
+      if (result.sex === 'F') {
         return Number(age) <= 16;
       }
 
@@ -52,30 +52,29 @@ describe('#parse param validate (global option)', function () {
   });
 
   it('#1. show error info when param is invalid (use `RegExp`)', function () {
-    args.parse(['start', '--port', '81'], false) 
+    args.parse(['start', '--port', '81'], false);
 
     assert.ok(hook.captured().indexOf('值不正确') !== -1);
   });
 
   it('#2. show error info when param is invalid (use `RegExp`)', function () {
-    args.parse(['start', '--platform', 'windows'], false) 
+    args.parse(['start', '--platform', 'windows'], false);
 
     assert.ok(hook.captured().indexOf('值不正确') !== -1);
   });
 
   it('#3. show error info when param is invalid (use `Function`)', function () {
-    args.parse(['start', '--age', '18', '--sex', 'F'], false) 
+    args.parse(['start', '--age', '18', '--sex', 'F'], false);
 
     assert.ok(hook.captured().indexOf('值不正确') !== -1);
   });
 
   it('show error info when param length is not right', function () {
-    args.parse(['start', '--port', '--https'], false) 
+    args.parse(['start', '--port', '--https'], false);
 
     assert.ok(hook.captured().indexOf('参数缺失') !== -1);
   });
 });
-
 
 describe('#parse param validate (command option)', function () {
   var args = new Args();
@@ -91,12 +90,12 @@ describe('#parse param validate (command option)', function () {
   args.command('start <port> [ip]', {
     describe: 'start http server',
     fn: function (port, ip) {
-      //...
+      // ...
     }
   });
 
   it('show error info when param length is not right', function () {
-    args.parse(['start', '--port', '81'], true) 
+    args.parse(['start', '--port', '81'], true);
 
     assert.notEqual(hook.captured().indexOf('参数个数不对'), -1);
   });
@@ -106,22 +105,22 @@ describe('#command name validate', function () {
   var args = new Args();
 
   it('should not throw error when name is: `start`', function () {
-    assert.doesNotThrow(function(){
+    assert.doesNotThrow(function () {
       args.command('start', {
         describe: 'start http server',
         fn: function (port, ip) {
-          //...
+          // ...
         }
       });
     });
   });
 
   it('should throw error when name is: `start port`', function () {
-    assert.throws(function(){
+    assert.throws(function () {
       args.command('start port', {
         describe: 'start http server',
         fn: function (port, ip) {
-          //...
+          // ...
         }
       });
     });
