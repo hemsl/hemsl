@@ -54,9 +54,9 @@ Args.prototype = {
     var result = this.result = this._parse(args);
     var error = this._checkOption(result);
 
-    if(error){
+    if (error) {
       console.log(error);
-    }else if(argv === true || execute === true){
+    } else if (argv === true || execute === true) {
       this._execute(result);
     }
 
@@ -313,7 +313,7 @@ Args.prototype = {
         var optDefine = this._getOption(result, optName);
         var params = optDefine && optDefine.config.params;
         var alias = this._getAlias(result._[0], optName);
-        var requiredParams = Array.isArray(params) && params.filter(function(p){
+        var requiredParams = Array.isArray(params) && params.filter(function (p) {
           return /^<.*>$/.test(p);
         });
 
