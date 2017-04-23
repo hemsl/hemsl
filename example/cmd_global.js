@@ -67,6 +67,11 @@ args
       describe: '日志内容过滤（全局配置）',
       alias: 'g'
     })
+    .option('filter [expression]', {
+      default: true,
+      describe: '日志内容过滤（全局配置）',
+      alias: 'g'
+    })
     .option('platform <os>', {
       default: 'all',
       describe: 'The target platform to publish(global)',
@@ -104,7 +109,9 @@ args
   '--tag all',
   '--tag beta-1',
   '--tag dev-1',
-  '--tag latest'
+  '--tag latest',
+  '--grep',
+  '--filter'
 ].forEach(function (argStr) {
   console.log();
   console.log('$'.bold.bold.magenta, 'example', argStr.bold.magenta, '\n');

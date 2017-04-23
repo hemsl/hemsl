@@ -1,6 +1,6 @@
 {
   "name": "hemsl",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "Node.js command line argv parser",
   "main": "src/index.js",
   "directories": {

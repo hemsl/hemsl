@@ -54,10 +54,10 @@ Args.prototype = {
     var result = this.result = this._parse(args);
     var error = this._checkOption(result);
 
-    if (!error && (argv === true || execute === true)) {
-      this._execute(result);
-    } else {
+    if(error){
       console.log(error);
+    }else if(argv === true || execute === true){
+      this._execute(result);
     }
 
     return result;
@@ -136,6 +136,7 @@ Args.prototype = {
       return this._helpCmd(cmdName);
     }
 
+    console.log();
     console.log('  ' + 'Usage:\n'.bold.underline);
     console.log('    ' + usage);
     // commands
@@ -312,9 +313,12 @@ Args.prototype = {
         var optDefine = this._getOption(result, optName);
         var params = optDefine && optDefine.config.params;
         var alias = this._getAlias(result._[0], optName);
+        var requiredParams = Array.isArray(params) && params.filter(function(p){
+          return /^<.*>$/.test(p);
+        });
 
         // 校验参数个数是否正确
-        if (Array.isArray(params) && params.length > 0 && optValue === DEFAULT_VALUE) {
+        if (Array.isArray(requiredParams) && requiredParams.length > 0 && optValue === DEFAULT_VALUE) {
           error = ['Error: 选项', optName, params.join(' '), '的参数缺失'].join(' ');
             // break;
         }

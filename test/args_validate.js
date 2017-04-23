@@ -34,6 +34,8 @@ describe('#parse param validate (global option)', function () {
   args.option('port <port>', {
     describe: 'port',
     validate: /\d{4,}/
+  }).option('open [browser]', {
+    describe: 'open browser'
   }).option('platform', {
     describe: 'port',
     validate: /^(all|win32|osx|unix)$/
@@ -51,28 +53,34 @@ describe('#parse param validate (global option)', function () {
     validate: true
   });
 
-  it('#1. show error info when param is invalid (use `RegExp`)', function () {
+  it('#1. should show error info when param is invalid (use `RegExp`)', function () {
     args.parse(['start', '--port', '81'], false);
 
     assert.ok(hook.captured().indexOf('值不正确') !== -1);
   });
 
-  it('#2. show error info when param is invalid (use `RegExp`)', function () {
+  it('#2. should show error info when param is invalid (use `RegExp`)', function () {
     args.parse(['start', '--platform', 'windows'], false);
 
     assert.ok(hook.captured().indexOf('值不正确') !== -1);
   });
 
-  it('#3. show error info when param is invalid (use `Function`)', function () {
+  it('#3. should show error info when param is invalid (use `Function`)', function () {
     args.parse(['start', '--age', '18', '--sex', 'F'], false);
 
     assert.ok(hook.captured().indexOf('值不正确') !== -1);
   });
 
-  it('show error info when param length is not right', function () {
+  it('should show error info when the required parameter is missing', function () {
     args.parse(['start', '--port', '--https'], false);
 
     assert.ok(hook.captured().indexOf('参数缺失') !== -1);
+  });
+
+  it('should not show error info when the optional parameter is missing', function () {
+    args.parse(['start', '--open', '--https'], false);
+
+    assert.equal(hook.captured().indexOf('参数缺失'), -1);
   });
 });
 
@@ -98,6 +106,12 @@ describe('#parse param validate (command option)', function () {
     args.parse(['start', '--port', '81'], true);
 
     assert.notEqual(hook.captured().indexOf('参数个数不对'), -1);
+  });
+
+  it('should not show error info when param length is right (without optoinal argument)', function () {
+    args.parse(['start', '8989', '--port', '81'], true);
+
+    assert.equal(hook.captured().indexOf('参数个数不对'), -1);
   });
 });
 

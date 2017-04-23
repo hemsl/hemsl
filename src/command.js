@@ -30,7 +30,8 @@ function Command (cmd, config) {
   var cmdName = cmdArr[0];
   var func = config.fn;
   var paramsLen = 0;
-  var reg = /(<[^>]+>|\[[^\]]+\])/;
+  // var reg = /(<[^>]+>|\[[^\]]+\])/;
+  var reg = /<[^>]+>/;  
   var paramItems = [];
 
   if (cmdArr.length > 1) {
