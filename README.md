@@ -11,7 +11,8 @@ hemsl是一个轻量级的命令行参数解析器，也支持命令执行。hem
 
 <img src='https://github.com/hemsl/hemsl/raw/master/logo.jpeg' width='300px'/>
 
-> 白花小松，学名：Villadia batesii （Hemsl.）Baehni & Macbride，景天科、塔莲属多年生多肉植物，花期一般4～5月份。白花小松的叶形叶色较美，有一定的观赏价值；盆栽可放置于电视、电脑旁，可吸收辐射，亦可栽植于室内以吸收甲醛等物质，净化空气。
+> White flowers Komatsu, scientific name: Villadia batesii (Hemsl.) Baehni & Macbride, Sedum, Tulian perennial multi-meat plants, flowering generally 4 to 5 months. White flowers Komatsu leaves more beautiful, there is a certain ornamental value; potted plants can be placed on the TV, the computer can absorb radiation, can also be planted in the room to absorb formaldehyde and other substances, purify the air.
+
 
 ## Install
 
@@ -36,7 +37,7 @@ var Args = require('hemsl');
 var args = new Args();
 ```
 
-### 设定App版本和命令名称
+### Set app version and bin name
 
 ```js
 args
@@ -44,34 +45,34 @@ args
   .bin('example');
 ```
 
-### 添加全局选项(option)
+### Add global option
 
 ```js
 args
   .option(, {
     option: 'debug',
     default: true,
-    describe: '显示调试信息（全局配置）',
+    describe: 'Print debug log (global option)',
     alias: 'd'
   })
   .option({
     option: 'grep <expression>',
     default: true,
-    describe: '日志内容过滤（全局配置）',
+    describe: 'Debug log filter (global option)',
     alias: 'g'
   });
 ```
 
-### 添加命令(command)
+### Add command
 
 ```js
 args.command({
   command: 'start <port> [ip]',
-  describe: '启动本地测试服务',
+  describe: 'Start a local server',
   usage: 'example start <port> [ip] [options]',
   /**
-    * 处理命令`start`的function
-    * 启动一个服务
+    * The `start` command handle
+    * Start a local server
     */
   fn: function(port, ip){
     console.log('Server started at', 'http://' + ip + ':' + port);
@@ -88,14 +89,14 @@ args.command({
 })
 ```
 
-### 给命令添加选项(option)
+### Add option to command
 
-给命令添加选项，有两种方式：
+There are two ways to add an option to a command:
 
--   方法一：调用`args.command()`方法是，设置配置字段`options`
--   方法二：调用`args.command()`返回对象的`option()`方法
+- Method 1: Call the `args.command()` method and set the configuration field `options`
+- Method 2: Call the `args.command().option()` method
 
-#### 方法一
+#### Method 1
 
 ```js
 args.command({
@@ -120,7 +121,7 @@ args.command({
 });
 ```
 
-#### 方法二
+#### Method 2
 
 ```js
 args.command({
@@ -141,9 +142,7 @@ args.command({
 })
 ```
 
-## 其他示例
-
-参考：
+## Other Example
 
 -   [example 1](./example/index.js)
 -   [example 2](./example/cmd_global.js)
