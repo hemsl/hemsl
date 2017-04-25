@@ -84,9 +84,9 @@ args
       alias: 'p',
       validate: function (val, result) {
         if (val === 'all' || val.indexOf('beta-') === 0 || val.indexOf('dev-') === 0) {
-          return true
-        } else{
-          return false
+          return true;
+        } else {
+          return false;
         }
       }
     });
