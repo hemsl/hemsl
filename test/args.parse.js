@@ -23,17 +23,18 @@ function captureStream (stream) {
 describe('helpers/args.js (Args Parse):\n', function () {
   var args = new Args();
   var startRes = '';
-  var srartContext = '';
-  var startArguments = [];
 
   args.bin('example-test').version('10.100.1000');
+
+  args.command('stop', {
+    usage: 'stop',
+    fn: function () {}
+  })
 
   args
     .command('start', {
       fn: function () {
         startRes = 'ok';
-        startContext = this;
-        startArguments = arguments;
       },
       describe: 'start server',
       usage: 'example start -p 9900 --https',
@@ -235,24 +236,6 @@ describe('helpers/args.js (Args Parse):\n', function () {
     });
   });
 
-  describe('#exec callback', function () {
-    it('正确执行 callback', function () {
-      assert.equal('ok', startRes);
-    });
-
-    it('传入正确的参数', function () {
-      assert.ok(
-                startArguments.length >= 2 &&
-                startArguments[0] === 'subcmd' &&
-                startArguments[1] === 'subcmd1'
-            );
-    });
-
-    it('设置正确的上下文(this)', function () {
-      assert.ok(startContext === _args);
-    });
-  });
-
   describe('#other', function () {
     var hook;
     beforeEach(function () {
@@ -316,28 +299,28 @@ describe('helpers/args.js (Args Parse):\n', function () {
     it('should parse command option right: ', function () {
       var execed = false;
       args
-                .command({
-                  command: 'start-server',
-                  fn: function () {
-                    execed = true;
-                  },
-                  describe: 'start server',
-                  usage: 'example start-server -p 9900 --https',
-                  options: {
-                    'port': {
-                      alias: 'p',
-                      describe: 'server port'
-                    },
-                    'https': {
-                      alias: 's',
-                      describe: 'enable https'
-                    }
-                  }
-                })
-                .option('hot-load', {
-                  alias: 'H',
-                  describe: 'enable hot reload'
-                });
+        .command({
+          command: 'start-server',
+          fn: function () {
+            execed = true;
+          },
+          describe: 'start server',
+          usage: 'example start-server -p 9900 --https',
+          options: {
+            'port': {
+              alias: 'p',
+              describe: 'server port'
+            },
+            'https': {
+              alias: 's',
+              describe: 'enable https'
+            }
+          }
+        })
+        .option('hot-load', {
+          alias: 'H',
+          describe: 'enable hot reload'
+        });
 
       var ress = args.parse('start-server --help'.split(' '));
 

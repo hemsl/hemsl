@@ -56,6 +56,7 @@ Args.prototype = {
 
     if (error) {
       console.log(error);
+      result.__error__ = error;
     } else if (argv === true || execute === true) {
       this._execute(result);
     }
