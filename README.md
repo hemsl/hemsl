@@ -1,6 +1,6 @@
 # hemsl
 
-hemsl是一个轻量级的命令行参数解析器，也支持命令执行。hemsl能根据定义，自动生成帮助信息。
+hemsl is a lightweight Node.js command line argv parser and command executor
 
 [![Build Status](https://travis-ci.org/hemsl/hemsl.svg?branch=master)](https://travis-ci.org/hemsl/hemsl)
 [![Build status](https://ci.appveyor.com/api/projects/status/hn9f1bhw5mxql8re/branch/master?svg=true)](https://ci.appveyor.com/project/zdying/hemsl/branch/master)

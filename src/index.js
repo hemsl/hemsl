@@ -386,6 +386,7 @@ Args.prototype = {
     var usage = cmd.usage || 'no help info found';
     var desc = cmd.describe;
 
+    console.log();
     console.log('  ' + 'USAGE:\n'.bold.underline);
     console.log('    ' + usage.gray);
 
@@ -397,6 +398,7 @@ Args.prototype = {
     console.log('  ' + 'OPTIONS:\n'.bold.underline);
 
     console.log(this._getOptionString(cmd.options || {}));
+    console.log();
 
     return this;
   },
