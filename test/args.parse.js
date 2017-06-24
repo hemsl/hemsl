@@ -20,7 +20,7 @@ function captureStream (stream) {
   };
 }
 
-describe('helpers/args.js (Args Parse):\n', function () {
+describe('Args Parse:', function () {
   var args = new Args();
   var startRes = '';
 
@@ -29,7 +29,7 @@ describe('helpers/args.js (Args Parse):\n', function () {
   args.command('stop', {
     usage: 'stop',
     fn: function () {}
-  })
+  });
 
   args
     .command('start', {
@@ -102,11 +102,14 @@ describe('helpers/args.js (Args Parse):\n', function () {
         '--https ' +
         '--port 5525 ' +
         '--middle-man-port 10010 ' +
+        '--conf ./hosts ' +
+        '--conf ./rewrite ' +
         '-a ' +
         '-b val ' +
         '-s *.a.com,*.a.cn ' +
         '-P /file/path/xxx ' +
         '--some thing ' +
+        '--conf ./custom.conf ' +
         'subcmd1 ' +
         '-def ' +
         '-ot two_val ' +
@@ -269,7 +272,7 @@ describe('helpers/args.js (Args Parse):\n', function () {
       assert.ok(hook.captured().indexOf('command `test-cmd` not exists') !== -1);
     });
 
-    it('cmd args error: "what <name>" ==> "node clis.js test"', function () {
+    it('cmd args error: "what <name>" ==> "node clis.js what"', function () {
       var name = '';
       args.command('what <name>', {
         fn: function (_name) {
@@ -278,7 +281,7 @@ describe('helpers/args.js (Args Parse):\n', function () {
       });
       args.parse('what'.split(' '), true);
 
-      assert.ok(hook.captured().indexOf('参数个数不对') !== -1 && name === '');
+      assert.ok(hook.captured().indexOf('has received wrong number of parameters') !== -1 && name === '');
     });
 
     it('cmd args ok: "what <name> [age]" ==> "node clis.js test zdying" callback get arg "name"', function () {

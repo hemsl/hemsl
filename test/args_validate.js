@@ -56,25 +56,25 @@ describe('#parse param validate (global option)', function () {
   it('#1. should show error info when param is invalid (use `RegExp`)', function () {
     args.parse(['start', '--port', '81'], false);
 
-    assert.ok(hook.captured().indexOf('值不正确') !== -1);
+    assert.ok(hook.captured().indexOf('`port <port>` is incorrect') !== -1);
   });
 
   it('#2. should show error info when param is invalid (use `RegExp`)', function () {
     args.parse(['start', '--platform', 'windows'], false);
 
-    assert.ok(hook.captured().indexOf('值不正确') !== -1);
+    assert.ok(hook.captured().indexOf('`platform` is incorrect') !== -1);
   });
 
   it('#3. should show error info when param is invalid (use `Function`)', function () {
     args.parse(['start', '--age', '18', '--sex', 'F'], false);
 
-    assert.ok(hook.captured().indexOf('值不正确') !== -1);
+    assert.ok(hook.captured().indexOf('`age` is incorrect') !== -1);
   });
 
   it('should show error info when the required parameter is missing', function () {
     args.parse(['start', '--port', '--https'], false);
 
-    assert.ok(hook.captured().indexOf('参数缺失') !== -1);
+    assert.ok(hook.captured().indexOf('`port <port>` is missing') !== -1);
   });
 
   it('should not show error info when the optional parameter is missing', function () {
@@ -105,13 +105,13 @@ describe('#parse param validate (command option)', function () {
   it('show error info when param length is not right', function () {
     args.parse(['start', '--port', '81'], true);
 
-    assert.notEqual(hook.captured().indexOf('参数个数不对'), -1);
+    assert.notEqual(hook.captured().indexOf('has received wrong number of parameters'), -1);
   });
 
   it('should not show error info when param length is right (without optoinal argument)', function () {
     args.parse(['start', '8989', '--port', '81'], true);
 
-    assert.equal(hook.captured().indexOf('参数个数不对'), -1);
+    assert.equal(hook.captured().indexOf('has received wrong number of parameters'), -1);
   });
 });
 

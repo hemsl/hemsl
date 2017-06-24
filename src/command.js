@@ -46,13 +46,13 @@ function Command (cmd, config) {
 
       func = function () {
         if (arguments.length < paramsLen) {
-          console.log('error: 命令`' + cmd + '` 参数个数不对, 期待`' + paramsLen + '`个，实际接收到`' + arguments.length + '`个');
+          console.log('error: The command `' + cmd + '` has received wrong number of parameters, expect `' + paramsLen + '`, actual received `' + arguments.length + '`');
         } else {
           config.fn.apply(this, arguments);
         }
       };
     } else {
-      throw Error('error: 命令`' + cmd + '`定义格式错误');
+      throw Error('error: The command `' + cmd + '` has wrong define format');
     }
   }
 

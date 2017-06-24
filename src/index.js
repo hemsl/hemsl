@@ -29,13 +29,13 @@ function Args (config) {
 
   this.option('version', {
     default: true,
-    describe: '显示版本信息',
+    describe: 'Display version information',
     alias: 'v'
   });
 
   this.option('help', {
     default: true,
-    describe: '显示帮助信息',
+    describe: 'Display help information',
     alias: 'h'
   });
 }
@@ -209,6 +209,7 @@ Args.prototype = {
   _parse: function (args) {
     var curr, currInfo, currValue, next, nextInfo, optName;
     var result = {_: []};
+    var self = this;
 
     for (var i = 0, len = args.length; i < len; i++) {
       curr = args[i];
@@ -245,11 +246,11 @@ Args.prototype = {
 
         if (currInfo.isLongOption) {
           // eg: --sub-domains domain.com ==> {'sub-domans': 'domain.com'}
-          result[utils.toCamelCase(optName)] = currValue;
+          self._setOptionValue(result, utils.toCamelCase(optName), currValue);
         } else if (currInfo.isShortOption) {
           // eg: -Dxo chrome ==> {D: true, x: true, o: 'chrome'}
           optName.split('').forEach(function (_optName, index) {
-            result[_optName] = index === optName.length - 1 ? currValue : true;
+            self._setOptionValue(result, _optName, index === optName.length - 1 ? currValue : true);
           });
         }
       } else {
@@ -258,6 +259,17 @@ Args.prototype = {
     }
 
     return result;
+  },
+
+  _setOptionValue: function (result, key, value) {
+    var oldValue = result[key];
+    if (oldValue == null) {
+      result[key] = value;
+    } else if (Array.isArray(oldValue)) {
+      result[key].push(value);
+    } else {
+      result[key] = [oldValue, value];
+    }
   },
 
   /**
@@ -320,7 +332,7 @@ Args.prototype = {
 
         // 校验参数个数是否正确
         if (Array.isArray(requiredParams) && requiredParams.length > 0 && optValue === DEFAULT_VALUE) {
-          error = ['Error: 选项', optName, params.join(' '), '的参数缺失'].join(' ');
+          error = 'Error: The parameter of `' + (optName + (Array.isArray(params) ? ' ' + params.join(' ') : '')) + '` is missing';
             // break;
         }
 
@@ -330,7 +342,7 @@ Args.prototype = {
         } else if (optDefine) {
           if (optDefine.config.validate) {
             if (optDefine.config.validate(optValue, result) === false) {
-              error = ['Error: 选项', optName, (params || []).join(' '), '的值不正确'].join(' ');
+              error = ['Error: The value of parameter `' + optName + (Array.isArray(params) ? ' ' + params.join(' ') : '') + '` is incorrect'].join(' ');
               // break;
             }
           }
