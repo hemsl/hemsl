@@ -16,6 +16,12 @@ var DEFAULT_VALUE = '__default_value__';
 /**
  * 参数解析
  * @param {Object} config 配置对象
+ * @param {Boolean} [config.__=false] 是否停止解析`--`后面的内容
+ * @param {Object}  [config.colors] 文本颜色配置
+ * @param {String}  [config.colors.title='white'] 标题文本颜色
+ * @param {String}  [config.colors.command='white'] 命令名称文本颜色
+ * @param {String}  [config.colors.paragraph='gray'] 段落文本颜色
+ * @param {String}  [config.colors.parameter='gray'] 参数文本颜色
  * @constructor
  */
 function Args (config) {
@@ -26,6 +32,8 @@ function Args (config) {
   this.config = config || {};
   this._version = '';
   this.binName = '';
+
+  this._initColors();
 
   this.option('version', {
     default: true,
@@ -152,7 +160,7 @@ Args.prototype = {
         maxLength = cmdLen;
       }
 
-      cmdLines.push('    ' + cmd.bold + ' $$' + cmdLen + '$$ ' + desc.gray);
+      cmdLines.push('    ' + cmd.bold[this.commandColor] + ' $$' + cmdLen + '$$ ' + desc[this.parameterColor]);
     }
 
     helpStr = cmdLines.join('\n').replace(/\$\$(\d+)\$\$/g, function (match, length) {
@@ -189,6 +197,26 @@ Args.prototype = {
   bin: function (binName) {
     this.binName = binName || '';
     return this;
+  },
+
+  _initColors: function () {
+    var self = this;
+    'command title paragraph parameter'.split(' ').forEach(function (key) {
+      self[key + 'Color'] = self.getColor(key);
+    });
+  },
+
+  getColor: function (type) {
+    var config = this.config || {};
+    var colors = config.colors || {};
+    var defaultColors = {
+      command: 'white',  // 命令名称
+      title: 'white',       // 标题文本
+      paragraph: 'gray',    // 段落文本颜色
+      parameter: 'gray'     // 参数文本颜色
+    };
+
+    return colors[type] || defaultColors[type] || 'white';
   },
 
   /**
@@ -397,17 +425,19 @@ Args.prototype = {
     var cmd = this._cmds[cmdName];
     var usage = cmd.usage || 'no help info found';
     var desc = cmd.describe;
+    var titleColor = this.titleColor;
+    var descColor = this.paragraphColor;
 
     console.log();
-    console.log('  ' + 'USAGE:\n'.bold.underline);
-    console.log('    ' + usage.gray);
+    console.log('  ' + 'USAGE:\n'.bold.underline[titleColor]);
+    console.log('    ' + usage[descColor]);
 
     console.log();
-    console.log('  ' + 'DESCRIBE:\n'.bold.underline);
-    console.log('    ' + desc.gray);
+    console.log('  ' + 'DESCRIBE:\n'.bold.underline[titleColor]);
+    console.log('    ' + desc[descColor]);
 
     console.log();
-    console.log('  ' + 'OPTIONS:\n'.bold.underline);
+    console.log('  ' + 'OPTIONS:\n'.bold.underline[titleColor]);
 
     console.log(this._getOptionString(cmd.options || {}));
     console.log();
@@ -438,8 +468,8 @@ Args.prototype = {
         maxLength = optStrLen;
       }
 
-      return '    ' + optStr.bold + ' ' + params.join(' ').gray + ' $$' + optStrLen + '$$ ' + describe.gray;
-    });
+      return '    ' + optStr.bold + ' ' + params.join(' ')[this.paragraphColor] + ' $$' + optStrLen + '$$ ' + describe[this.paragraphColor];
+    }.bind(this));
 
     // cmdOptLines.unshift('  -h,--help'.bold.green + ' $$6$$ show help info');
     res = cmdOptLines.join('\n').replace(/\$\$(\d+)\$\$/g, function (match, length) {
