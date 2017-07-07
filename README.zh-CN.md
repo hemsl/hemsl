@@ -167,12 +167,12 @@ args.command({
 * [Args](#Args)
     * [new Args(config)](#new_Args_new)
     * [.parse([argv], [execute])](#Args+parse) ⇒ <code>Object</code>
-    * [.execute()](#Args+execute) ⇒ <code>[Args](#Args)</code>
-    * [.option(key, config)](#Args+option) ⇒ <code>[Args](#Args)</code>
-    * [.command(cmd, config)](#Args+command) ⇒ <code>[Command](#Command)</code>
-    * [.help([cmdName])](#Args+help) ⇒ <code>[Args](#Args)</code>
-    * [.version(ver)](#Args+version) ⇒ <code>[Args](#Args)</code>
-    * [.bin(binName)](#Args+bin) ⇒ <code>[Args](#Args)</code>
+    * [.execute()](#Args+execute) ⇒ [<code>Args</code>](#Args)
+    * [.option(key, config)](#Args+option) ⇒ [<code>Args</code>](#Args)
+    * [.command(cmd, config)](#Args+command) ⇒ [<code>Command</code>](#Command)
+    * [.help([cmdName])](#Args+help) ⇒ [<code>Args</code>](#Args)
+    * [.version(ver)](#Args+version) ⇒ [<code>Args</code>](#Args)
+    * [.bin(binName)](#Args+bin) ⇒ [<code>Args</code>](#Args)
 
 <a name="new_Args_new"></a>
 
@@ -180,16 +180,22 @@ args.command({
 参数解析
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| config | <code>Object</code> | 配置对象 |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| config | <code>Object</code> |  | 配置对象 |
+| [config.__] | <code>Boolean</code> | <code>false</code> | 是否停止解析`--`后面的内容 |
+| [config.colors] | <code>Object</code> |  | 文本颜色配置 |
+| [config.colors.title] | <code>String</code> | <code>&#x27;white&#x27;</code> | 标题文本颜色 |
+| [config.colors.command] | <code>String</code> | <code>&#x27;white&#x27;</code> | 命令名称文本颜色 |
+| [config.colors.paragraph] | <code>String</code> | <code>&#x27;gray&#x27;</code> | 段落文本颜色 |
+| [config.colors.parameter] | <code>String</code> | <code>&#x27;gray&#x27;</code> | 参数文本颜色 |
 
 <a name="Args+parse"></a>
 
 ### args.parse([argv], [execute]) ⇒ <code>Object</code>
 解析参数，返回解析后的参数对象。如果参数`execute`为`true`，自动执行argv中的命令
 
-**Kind**: instance method of <code>[Args](#Args)</code>  
+**Kind**: instance method of [<code>Args</code>](#Args)  
 **Returns**: <code>Object</code> - 解析后的对象  
 **Access**: public  
 
@@ -200,17 +206,17 @@ args.command({
 
 <a name="Args+execute"></a>
 
-### args.execute() ⇒ <code>[Args](#Args)</code>
+### args.execute() ⇒ [<code>Args</code>](#Args)
 执行命令
 
-**Kind**: instance method of <code>[Args](#Args)</code>  
+**Kind**: instance method of [<code>Args</code>](#Args)  
 **Access**: public  
 <a name="Args+option"></a>
 
-### args.option(key, config) ⇒ <code>[Args](#Args)</code>
+### args.option(key, config) ⇒ [<code>Args</code>](#Args)
 添加全局选项
 
-**Kind**: instance method of <code>[Args](#Args)</code>  
+**Kind**: instance method of [<code>Args</code>](#Args)  
 **Access**: public  
 
 | Param | Type | Description |
@@ -220,10 +226,10 @@ args.command({
 
 <a name="Args+command"></a>
 
-### args.command(cmd, config) ⇒ <code>[Command](#Command)</code>
+### args.command(cmd, config) ⇒ [<code>Command</code>](#Command)
 添加命令
 
-**Kind**: instance method of <code>[Args](#Args)</code>  
+**Kind**: instance method of [<code>Args</code>](#Args)  
 **Access**: public  
 
 | Param | Type | Description |
@@ -233,10 +239,10 @@ args.command({
 
 <a name="Args+help"></a>
 
-### args.help([cmdName]) ⇒ <code>[Args](#Args)</code>
+### args.help([cmdName]) ⇒ [<code>Args</code>](#Args)
 显示自动生成的帮助信息，如果指定了命令名称，则显示对应命令的帮助信息
 
-**Kind**: instance method of <code>[Args](#Args)</code>  
+**Kind**: instance method of [<code>Args</code>](#Args)  
 **Access**: public  
 
 | Param | Type | Description |
@@ -245,10 +251,10 @@ args.command({
 
 <a name="Args+version"></a>
 
-### args.version(ver) ⇒ <code>[Args](#Args)</code>
+### args.version(ver) ⇒ [<code>Args</code>](#Args)
 设置App版本号，默认值为1.0.0。这个版本号会在全局-v/--version的时候显示
 
-**Kind**: instance method of <code>[Args](#Args)</code>  
+**Kind**: instance method of [<code>Args</code>](#Args)  
 **Access**: public  
 
 | Param | Type | Description |
@@ -257,10 +263,10 @@ args.command({
 
 <a name="Args+bin"></a>
 
-### args.bin(binName) ⇒ <code>[Args](#Args)</code>
+### args.bin(binName) ⇒ [<code>Args</code>](#Args)
 设置App的命令名称
 
-**Kind**: instance method of <code>[Args](#Args)</code>  
+**Kind**: instance method of [<code>Args</code>](#Args)  
 **Access**: public  
 
 | Param | Type | Description |
@@ -274,7 +280,7 @@ args.command({
 
 * [Command](#Command)
     * [new Command(cmd, config)](#new_Command_new)
-    * [.option(key, opt)](#Command+option) ⇒ <code>[Command](#Command)</code>
+    * [.option(key, opt)](#Command+option) ⇒ [<code>Command</code>](#Command)
 
 <a name="new_Command_new"></a>
 
@@ -293,14 +299,13 @@ args.command({
 
 <a name="Command+option"></a>
 
-### command.option(key, opt) ⇒ <code>[Command](#Command)</code>
+### command.option(key, opt) ⇒ [<code>Command</code>](#Command)
 为命令创建一个选项
 
-**Kind**: instance method of <code>[Command](#Command)</code>  
+**Kind**: instance method of [<code>Command</code>](#Command)  
 **Access**: public  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | key | <code>String</code> | 选项名称 |
 | opt | <code>Object</code> | 选项配置 |
-

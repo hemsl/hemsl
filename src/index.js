@@ -146,7 +146,7 @@ Args.prototype = {
     }
 
     console.log();
-    console.log('  ' + 'Usage:\n'.bold.underline);
+    console.log('  ' + 'Usage:\n'.bold.underline[this.titleColor]);
     console.log('    ' + usage);
     // commands
     var cmdLines = [];
@@ -167,10 +167,10 @@ Args.prototype = {
       return new Array(maxLength - length + 1).join(' ');
     });
 
-    console.log('  ' + 'Commands:\n'.bold.underline);
+    console.log('  ' + 'Commands:\n'.bold.underline[this.titleColor]);
     console.log(helpStr);
 
-    console.log('\n  ' + 'Options:\n'.bold.underline);
+    console.log('\n  ' + 'Options:\n'.bold.underline[this.titleColor]);
     console.log(this._getOptionString(this._options));
     console.log();
 
