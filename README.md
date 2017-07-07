@@ -186,6 +186,7 @@ args.command({
 | [config.colors] | <code>Object</code> |  | 文本颜色配置 |
 | [config.colors.title] | <code>String</code> | <code>&#x27;white&#x27;</code> | 标题文本颜色 |
 | [config.colors.command] | <code>String</code> | <code>&#x27;white&#x27;</code> | 命令名称文本颜色 |
+| [config.colors.option] | <code>String</code> | <code>&#x27;white&#x27;</code> | Option文本颜色 |
 | [config.colors.paragraph] | <code>String</code> | <code>&#x27;gray&#x27;</code> | 段落文本颜色 |
 | [config.colors.parameter] | <code>String</code> | <code>&#x27;gray&#x27;</code> | 参数文本颜色 |
 

@@ -20,6 +20,7 @@ var DEFAULT_VALUE = '__default_value__';
  * @param {Object}  [config.colors] 文本颜色配置
  * @param {String}  [config.colors.title='white'] 标题文本颜色
  * @param {String}  [config.colors.command='white'] 命令名称文本颜色
+ * @param {String}  [config.colors.option='white']  Option文本颜色
  * @param {String}  [config.colors.paragraph='gray'] 段落文本颜色
  * @param {String}  [config.colors.parameter='gray'] 参数文本颜色
  * @constructor
@@ -160,7 +161,7 @@ Args.prototype = {
         maxLength = cmdLen;
       }
 
-      cmdLines.push('    ' + cmd.bold[this.commandColor] + ' $$' + cmdLen + '$$ ' + desc[this.parameterColor]);
+      cmdLines.push('    ' + cmd.bold[this.commandColor] + ' $$' + cmdLen + '$$ ' + desc[this.paragraphColor]);
     }
 
     helpStr = cmdLines.join('\n').replace(/\$\$(\d+)\$\$/g, function (match, length) {
@@ -468,7 +469,7 @@ Args.prototype = {
         maxLength = optStrLen;
       }
 
-      return '    ' + optStr.bold + ' ' + params.join(' ')[this.paragraphColor] + ' $$' + optStrLen + '$$ ' + describe[this.paragraphColor];
+      return '    ' + optStr.bold + ' ' + params.join(' ')[this.parameterColor] + ' $$' + optStrLen + '$$ ' + describe[this.paragraphColor];
     }.bind(this));
 
     // cmdOptLines.unshift('  -h,--help'.bold.green + ' $$6$$ show help info');
