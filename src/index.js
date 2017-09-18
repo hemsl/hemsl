@@ -175,6 +175,9 @@ Args.prototype = {
     console.log(this._getOptionString(this._options));
     console.log();
 
+    console.log('  Tips:'.bold.green + ' Use `' + this.binName + ' <command> --help` or `git <command> -h` to read about a specific subcommand help info.');
+    console.log();
+
     return this;
   },
 
@@ -202,7 +205,7 @@ Args.prototype = {
 
   _initColors: function () {
     var self = this;
-    'command title paragraph parameter'.split(' ').forEach(function (key) {
+    'command option title paragraph parameter'.split(' ').forEach(function (key) {
       self[key + 'Color'] = self.getColor(key);
     });
   },
@@ -469,7 +472,7 @@ Args.prototype = {
         maxLength = optStrLen;
       }
 
-      return '    ' + optStr.bold + ' ' + params.join(' ')[this.parameterColor] + ' $$' + optStrLen + '$$ ' + describe[this.paragraphColor];
+      return '    ' + optStr.bold[this.optionColor] + ' ' + params.join(' ')[this.parameterColor] + ' $$' + optStrLen + '$$ ' + describe[this.paragraphColor];
     }.bind(this));
 
     // cmdOptLines.unshift('  -h,--help'.bold.green + ' $$6$$ show help info');
