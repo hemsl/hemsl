@@ -175,7 +175,7 @@ Args.prototype = {
     console.log(this._getOptionString(this._options));
     console.log();
 
-    console.log('  Tips:'.bold.green + ' Use `' + this.binName + ' <command> --help` or `git <command> -h` to read about a specific subcommand help info.');
+    console.log('  Tips:'.bold.green + ' Use `' + this.binName + ' <command> --help` or `' + this.binName + ' <command> -h` to read about a specific subcommand help info.');
     console.log();
 
     return this;
